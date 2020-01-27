@@ -1,85 +1,84 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:appuniversitario/Components/homePageComponents.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class Home extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => _HomeState(); 
 }
-
+ 
 class _HomeState extends State<Home> {
+
+  List _toDoMaterias = [];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          "univers.io",
-          style: TextStyle(fontSize: 25.0),
-        ),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: appBody(),
-    );
+    return AppBody();
   }
+
+  Future<File> _getFile() async{
+  final directory = await getApplicationDocumentsDirectory();
+  return File("${directory.path}/data.json");
+  }
+
+  Future<File> _saveData() async{
+    String data = json.encode(_toDoMaterias);
+    final file = await _getFile();
+    return file.writeAsString(data);
+  }
+
+  Future<String> _readData() async{
+    try{
+      final file = await _getFile();
+      return file.readAsString();
+    }catch (e){
+      return null;
+    }
+  }
+  
 }
 
-Widget appBody() {
-  return SingleChildScrollView(
-    child: Column(      
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Row(          
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Materias",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  "nova materia",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-            SizedBox(
-             child: ListView.builder(
-               physics: BouncingScrollPhysics(),
-               itemCount: 5,
-               itemBuilder: (context, index){
-                 return Text("Text", style: TextStyle(color: Colors.white),);
-               }
-               
-             ),
-            )
-          ],
+
+
+
+
+Widget AppBody() {
+  return Scaffold(
+    backgroundColor: Colors.blueGrey,
+    appBar: AppBar(
+      title: Text(
+        "Estud.io",
+        style: TextStyle(color: Colors.white),
+      ),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          tooltip: 'Notificacaoes',
+          onPressed: () {},
         ),
+        IconButton(
+          icon: Icon(Icons.event),
+          tooltip: "Configuracao",
+          onPressed: () {},
         ),
-        
       ],
+      backgroundColor: Colors.blueGrey,
+      centerTitle: true,
+    ),
+    body: SingleChildScrollView(
+      child: Column(
+        children: <Widget>[            
+        SizedBox(height: 5.0,),
+        ListMaterias(),
+        ListAgenda(),
+        //ListRepublicas(),
+        ],
+      ),
+      
     ),
   );
 }
+
