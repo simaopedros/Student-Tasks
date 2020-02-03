@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:appuniversitario/Pages/viewMateria.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -11,10 +12,14 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final _todoControler = TextEditingController();
   final _addMateriaControler = TextEditingController();
+
   List _toDoList = [];
   List _materiaList = [];
+
   Map<String, dynamic> _lastRemoved;
   int _lastRemovedPos;
+
+  
 
   @override
   void initState() {
@@ -31,6 +36,8 @@ class _HomeState extends State<Home> {
       });
     });
   }
+
+  
 
   void _addTodo() {
     setState(() {
@@ -52,10 +59,8 @@ class _HomeState extends State<Home> {
       newMateria["t1"] = "0.0";
       newMateria["p2"] = "0.0";
       newMateria["t2"] = "0.0";
-      newMateria["tarefas"] = [
-        {"tarefa": "Exemplo de Tarefa", "status": false}
-      ];
-      _todoControler.text = "";
+      newMateria["tarefas"] = [];
+      _addMateriaControler.text = "";
       _materiaList.add(newMateria);
       _saveDataMateria();
     });
@@ -89,7 +94,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<Null> _refresh() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(milliseconds: 500));
     setState(() {
       _toDoList.sort((a, b) {
         if (a["status"] && !b["status"])
@@ -108,15 +113,16 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueAccent,
       appBar: AppBar(
         title: Text(
           "AppUniversitario",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.lightBlue,
         centerTitle: true,
       ),
-      backgroundColor: Colors.white,
+      
       body: Container(
         color: Colors.white,
         child: Column(
@@ -130,14 +136,29 @@ class _HomeState extends State<Home> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: <Widget>[
-                    for (var i in _materiaList)
-                      cardMateria(
-                          i["materia"].toString(),
-                          i["p1"].toString(),
-                          i["t1"].toString(),
-                          i["p2"].toString(),
-                          i["t2"].toString(),
-                          i["tarefas"]),
+                    for (var cont = 0; cont < _materiaList.length; cont++)
+                      FlatButton(
+                        padding: EdgeInsets.all(0.0),
+                        child: cardMateria(
+                        _materiaList[cont]["materia"], 
+                        _materiaList[cont]["p1"], 
+                        _materiaList[cont]["t1"], 
+                        _materiaList[cont]["p2"], 
+                        _materiaList[cont]["t2"], 
+                        _materiaList[cont]["tarefas"]),
+                        onPressed: (){
+                          Navigator.push(
+                            context, 
+                            MaterialPageRoute(builder: (context) => ViewMateria(indice: cont)));
+                        },
+                        onLongPress: (){                        
+                          setState(() {
+                            _materiaList.removeAt(cont);
+                            _saveDataMateria();
+                          });
+                        },
+                        ),
+                        
                     FlatButton(
                       onPressed: () {
                         addMateriaDialog(context);
@@ -273,7 +294,7 @@ class _HomeState extends State<Home> {
         value: _toDoList[index]["status"],
         secondary: CircleAvatar(
           child: Icon(
-              _toDoList[index]["status"] ? Icons.check_circle : Icons.error),
+              _toDoList[index]["status"] ? Icons.check_circle_outline : Icons.error_outline),
         ),
         onChanged: (c) {
           setState(() {
