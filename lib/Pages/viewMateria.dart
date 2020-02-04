@@ -174,7 +174,11 @@ class _ViewMateriaState extends State<ViewMateria> {
                     color: Colors.transparent,
                     child: Icon(Icons.add),
                     elevation: 0.0,
-                    onPressed: _addTodoMateria,
+                    onPressed: (){
+                      if(_addMateriaControler.text.isNotEmpty){
+                        _addTodoMateria();
+                      }
+                    }
                   )
                 ],
               ),

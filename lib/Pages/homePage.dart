@@ -12,14 +12,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final _todoControler = TextEditingController();
   final _addMateriaControler = TextEditingController();
-
   List _toDoList = [];
   List _materiaList = [];
-
   Map<String, dynamic> _lastRemoved;
   int _lastRemovedPos;
-
-  
 
   @override
   void initState() {
@@ -37,8 +33,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  
-
   void _addTodo() {
     setState(() {
       Map<String, dynamic> newTodo = Map();
@@ -47,6 +41,7 @@ class _HomeState extends State<Home> {
       newTodo["status"] = false;
       newTodo["materia"] = "Geral";
       _toDoList.add(newTodo);
+
       _saveData();
     });
   }
@@ -80,12 +75,14 @@ class _HomeState extends State<Home> {
                 elevation: 5.0,
                 child: Text("Enviar"),
                 onPressed: () {
-                  setState(() {
-                    _addMateria();
-                    _saveDataMateria();
-                    Navigator.of(context)
-                        .pop(_addMateriaControler.text.toString());
-                  });
+                  if (_addMateriaControler.text.isNotEmpty) {
+                    setState(() {
+                      _addMateria();
+                      _saveDataMateria();
+                      Navigator.of(context)
+                          .pop(_addMateriaControler.text.toString());
+                    });
+                  }
                 },
               ),
             ],
@@ -116,13 +113,12 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.blueAccent,
       appBar: AppBar(
         title: Text(
-          "AppUniversitario",
+          "Student Tasks",
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.lightBlue,
         centerTitle: true,
       ),
-      
       body: Container(
         color: Colors.white,
         child: Column(
@@ -140,25 +136,26 @@ class _HomeState extends State<Home> {
                       FlatButton(
                         padding: EdgeInsets.all(0.0),
                         child: cardMateria(
-                        _materiaList[cont]["materia"], 
-                        _materiaList[cont]["p1"], 
-                        _materiaList[cont]["t1"], 
-                        _materiaList[cont]["p2"], 
-                        _materiaList[cont]["t2"], 
-                        _materiaList[cont]["tarefas"]),
-                        onPressed: (){
+                            _materiaList[cont]["materia"],
+                            _materiaList[cont]["p1"],
+                            _materiaList[cont]["t1"],
+                            _materiaList[cont]["p2"],
+                            _materiaList[cont]["t2"],
+                            _materiaList[cont]["tarefas"]),
+                        onPressed: () {
                           Navigator.push(
-                            context, 
-                            MaterialPageRoute(builder: (context) => ViewMateria(indice: cont)));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ViewMateria(indice: cont)));
                         },
-                        onLongPress: (){                        
+                        onLongPress: () {
                           setState(() {
                             _materiaList.removeAt(cont);
                             _saveDataMateria();
                           });
                         },
-                        ),
-                        
+                      ),
                     FlatButton(
                       onPressed: () {
                         addMateriaDialog(context);
@@ -201,12 +198,15 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     RaisedButton(
-                      focusElevation: 0,
-                      color: Colors.transparent,
-                      child: Icon(Icons.add),
-                      elevation: 0.0,
-                      onPressed: _addTodo,
-                    )
+                        focusElevation: 0,
+                        color: Colors.transparent,
+                        child: Icon(Icons.add),
+                        elevation: 0.0,
+                        onPressed: () {
+                          if (_todoControler.text.isNotEmpty) {
+                            _addTodo();
+                          }
+                        })
                   ],
                 ),
               ),
@@ -293,8 +293,9 @@ class _HomeState extends State<Home> {
         title: Text(_toDoList[index]["tarefa"]),
         value: _toDoList[index]["status"],
         secondary: CircleAvatar(
-          child: Icon(
-              _toDoList[index]["status"] ? Icons.check_circle_outline : Icons.error_outline),
+          child: Icon(_toDoList[index]["status"]
+              ? Icons.check_circle_outline
+              : Icons.error_outline),
         ),
         onChanged: (c) {
           setState(() {
