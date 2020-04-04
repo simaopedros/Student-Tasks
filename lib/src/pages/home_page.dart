@@ -7,77 +7,126 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+        appBar: _appBar(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              _barraSuperior(),
+            ],
+          ),
+        ));
+  }
+
+  AppBar _appBar(){
+    return AppBar(
+          title: Row(
+            children: <Widget>[
+              Text("Students", style: GoogleFonts.roboto(fontWeight: FontWeight.w300)),
+              Text("Task", style: GoogleFonts.roboto(fontWeight: FontWeight.bold),),
+            ],
+          ),
+          backgroundColor: Color.fromRGBO(57, 44, 206, 1.0),
+          elevation: 0.0,
+          actions: <Widget>[
+            IconButton(
+              onPressed: (){},
+                icon: Icon(
+              Icons.note_add,
+              color: Colors.white,
+            )),
+            IconButton(
+              onPressed: (){},
+                icon: Icon(
+              Icons.more_vert,
+              color: Colors.white,
+            ))
+          ],
+        );
+  }
+  
+  
+  Widget _barraSuperior() {
+    return Container(
+      height: 150.0,
+      width: double.infinity,
+      color: Color.fromRGBO(57, 44, 206, 1.0),
+      child: SafeArea(
         child: Column(
           children: <Widget>[
-            _appBar(),
-            _headerAdd()
+            SizedBox(height: 20.0,),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: Colors.white,
+              ),
+              padding: EdgeInsets.all(5.0),
+              margin: EdgeInsets.symmetric(horizontal: 20.0),
+             
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: "Nova Tarefa",
+                  icon: Icon(Icons.add),
+                  border: InputBorder.none
+                ),
+              ),
+            ),
+            _menuSuperios(),
           ],
-        ),
+        )
       ),
     );
   }
 
-  Widget _appBar() {
-    return AppBar(
-      elevation: 0.0,
-      backgroundColor: Color.fromRGBO(57, 44, 206, 1.0),
-      title: _titulo(),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.note_add,
-            color: Colors.white,
-          ),
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: Icon(
-            Icons.menu,
-            color: Colors.white,
-          ),
-          onPressed: () {},
-        )
-      ],
-    );
-  }
-
-  Widget _titulo() {
-    return Row(
-      children: <Widget>[
-        Text(
-          "Student",
-          style: GoogleFonts.roboto(fontWeight: FontWeight.w300),
-        ),
-        Text(
-          "Tasks",
-          style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
-        )
-      ],
-    );
-  }
-
-  Widget _headerAdd() {
+  Widget _menuSuperios(){
     return Container(
-      height: 150.0,
-      width: double.infinity,     
-      color: Color.fromRGBO(57, 44, 206, 1.0),
-      child: Column(
+      padding: EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(25.0),
-            child: TextFormField( 
-              style: TextStyle(color: Colors.black),
-              initialValue: "Nova Tarefa",
-              decoration: InputDecoration(
-                border: InputBorder.none,
-              ),
-              
-            ),
+          FlatButton(
+            onPressed: (){}, 
+            child: Column(
+              children: <Widget>[
+                Icon(Icons.event_seat, color: Colors.white,),
+                Text("PROVAS", style: TextStyle(color: Colors.white),)
+              ],
+            )
+          ),
+
+          FlatButton(
+            onPressed: (){}, 
+            child: Column(
+              children: <Widget>[
+                Icon(Icons.view_module, color: Colors.white,),
+                Text("GRADE", style: TextStyle(color: Colors.white),)
+              ],
+            )
+          ),
+
+          FlatButton(
+            onPressed: (){}, 
+            child: Column(
+              children: <Widget>[
+                Icon(Icons.insert_invitation, color: Colors.white,),
+                Text("ESTUDOS", style: TextStyle(color: Colors.white),)
+              ],
+            )
+          ),
+
+          FlatButton(
+            onPressed: (){}, 
+            child: Column(
+              children: <Widget>[
+                Icon(Icons.book, color: Colors.white,),
+                Text("MATERIAS", style: TextStyle(color: Colors.white),)
+              ],
+            )
           ),
         ],
       ),
-      
     );
   }
+
+
+
 }
