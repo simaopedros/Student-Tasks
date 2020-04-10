@@ -26,9 +26,8 @@ class _GradePageState extends State<GradePage> {
               padding: EdgeInsets.all(10.0),
               child: Row(
                 children: <Widget>[
-                  Expanded(child: Titulo("minhas", "Materias")),
-                  Expanded(child: Container()),
-                  IconButton(icon: Icon(FontAwesomeIcons.plus, size: 20.0,), onPressed: null)
+                  Expanded(child: Titulo("minha", "Grade")),
+                  
                 ],
               )),
           Container(margin: EdgeInsets.symmetric(horizontal: 5.0), child: ItemGrade(Color.fromRGBO(57, 44, 206, 1.0))),    
