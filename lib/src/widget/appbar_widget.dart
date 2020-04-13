@@ -5,10 +5,10 @@ Widget appBarPadrao(){
   return AppBar(
       title: Row(
         children: <Widget>[
-          Text("Students",
+          Text("Student",
               style: GoogleFonts.roboto(fontWeight: FontWeight.w300)),
           Text(
-            "Task",
+            "Tasks",
             style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
           ),
         ],

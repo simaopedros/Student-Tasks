@@ -19,13 +19,13 @@ class LoginPage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("Students",
+              Text("Student",
                   style: GoogleFonts.roboto(
                       fontSize: 25.0,
                       fontWeight: FontWeight.w300,
                       color: Colors.white)),
               Text(
-                "Task",
+                "Tasks",
                 style: GoogleFonts.roboto(
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold,
