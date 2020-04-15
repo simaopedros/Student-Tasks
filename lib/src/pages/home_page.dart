@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: <Widget>[
               BarraSuperior(),
+              
               CardStory(),
               Padding(
                 padding: EdgeInsets.only(left: 10.0, top: 10.0),
@@ -135,24 +136,5 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
-
-  // Widget _tarefasPendentes() {
-  //   return Container(
-  //     padding: EdgeInsets.all(10.0),
-  //     child: Column(
-  //       children: <Widget>[
-
-  //         _listaTarefas(),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget _listaTarefas() {
-  //   return FutureBuilder(
-  //     future: tarefasProvider.carregarTarefas("simaopedros"),
-  //     builder: (BuildContext context, AsyncSnapshot<List<TarefasProvider>> snapshot) {}
-  //   );
-  // }
 
 }

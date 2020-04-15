@@ -71,4 +71,15 @@ class TarefasProvider{
   }
 
 
+  Future<TarefaModel> carregarUmaTarefa(String usuario, String tarefaId) async {
+
+    final url = '$_url/$usuario/tarefas/$tarefaId.json';
+    final resp = await http.get(url);
+    final tarefa = json.decode(resp.body);
+
+    print(tarefa);
+    return tarefa;
+  }
+
+
 }

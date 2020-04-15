@@ -1,4 +1,5 @@
 import 'package:appuniversitario/src/models/evento_model.dart';
+export 'package:appuniversitario/src/models/evento_model.dart';
 
 import 'package:appuniversitario/src/providers/eventos_provider.dart';
 export 'package:appuniversitario/src/providers/eventos_provider.dart';

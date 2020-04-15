@@ -9,17 +9,20 @@ import 'package:rxdart/rxdart.dart';
 class TarefasBloc {
     final _tarefasControler     = new BehaviorSubject<List<TarefaModel>>();
     final _carregandoControler  = new BehaviorSubject<bool>();
-
+    final _umaTarefaController  = new BehaviorSubject<TarefaModel>();
     final _tarefasProvider      = new TarefasProvider();
 
     Stream<List<TarefaModel>> get tarefasStream => _tarefasControler.stream;
-    Stream<bool> get carregando => _carregandoControler.stream;
+    Stream<TarefaModel>       get umaTarefaStream => _umaTarefaController.stream;
+    Stream<bool>              get carregando => _carregandoControler.stream;
 
     void carregarTarefas(String usuario) async {
       _tarefasControler.sink.add(await _tarefasProvider.carregarTarefas(usuario));
     }
 
-
+    void carregarUmaTarefa(String usuario, String tarefaId) async {
+      _umaTarefaController.sink.add(await _tarefasProvider.carregarUmaTarefa(usuario, tarefaId));
+    }
     
 
     void adicionarTarefa(TarefaModel tarefa, String usuario) async {
@@ -46,6 +49,7 @@ class TarefasBloc {
     dispose(){
       _tarefasControler.close();
       _carregandoControler.close();
+      _umaTarefaController.close();
     }
 
 }
