@@ -11,7 +11,7 @@ class ProvaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarPadrao(),
+        appBar: appBarPadrao(context),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(              

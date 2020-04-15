@@ -15,7 +15,7 @@ class _GradePageState extends State<GradePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarPadrao(),
+      appBar: appBarPadrao(context),
       body: SafeArea(
           child: SingleChildScrollView(
               child: Column(

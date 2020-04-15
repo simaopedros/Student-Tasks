@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Tarefa extends StatefulWidget {
+
   final TarefaModel tarefa;
   final String id;
   final String usuario;
@@ -26,10 +27,12 @@ class _TarefaState extends State<Tarefa> {
 
   @override
   Widget build(BuildContext context) {
-    final tarefaBloc = new TarefasBloc();
-    final eventoModel = new EventosModel();
+
+    TarefasBloc tarefaBloc = new TarefasBloc();
+    EventosModel eventoModel = new EventosModel();
+
     tarefaBloc.carregarTarefas("simaopedros");
-    // final tarefasProvider = new TarefasProvider();
+
     return GestureDetector(
       onLongPress: () =>
           _abrirTarefas(widget.usuario, widget.id, widget.tarefa, eventoModel),

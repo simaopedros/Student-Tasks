@@ -7,6 +7,7 @@ export 'package:appuniversitario/src/providers/eventos_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class EventosBloc {
+  
   final _eventosController = new BehaviorSubject<List<EventosModel>>();
   final _carregandoController = new BehaviorSubject<bool>();
 

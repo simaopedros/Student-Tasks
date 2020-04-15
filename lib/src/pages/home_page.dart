@@ -1,13 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:appuniversitario/src/bloc/notas_bloc.dart';
 import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
-import 'package:appuniversitario/src/models/tarefa_model.dart';
 import 'package:appuniversitario/src/widget/appbar_widget.dart';
 import 'package:appuniversitario/src/widget/cardstory_widget.dart';
 import 'package:appuniversitario/src/widget/listadetarefas_widget.dart';
 import 'package:appuniversitario/src/widget/menusuperior_widget.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,57 +13,49 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final tarefaBloc = new TarefasBloc();
-  
   final String usuario = "simaopedros";
-  TarefaModel tarefa = new TarefaModel();
 
   @override
   void initState() {
     super.initState();
-    // tarefaBloc.carregarTarefas(usuario);
   }
 
   @override
   Widget build(BuildContext context) {
-    final tarefaBloc = new TarefasBloc();
+
+    TarefasBloc tarefaBloc = new TarefasBloc();
+    NotasBloc notasBloc = new NotasBloc();
+
     tarefaBloc.carregarTarefas(usuario);
-    // final tarefaBloc = Provider.tarefasBloc(context);
-    // tarefaBloc.carregarTarefas(usuario);
+    notasBloc.carregarNotas(usuario);
 
     return Scaffold(
-        appBar: appBarPadrao(),
+        appBar: appBarPadrao(context),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               BarraSuperior(),
-              
               CardStory(),
-              Padding(
-                padding: EdgeInsets.only(left: 10.0, top: 10.0),
-                child: Titulo("tarefas", "Pendentes"),
-              ),
               _listaTarefas(tarefaBloc),
-              _blocoDeNotas(),
+              _blocoDeNotas(notasBloc),
             ],
           ),
         ));
   }
 
   Widget _listaTarefas(TarefasBloc tarefaBloc) {
+
     return StreamBuilder(
       stream: tarefaBloc.tarefasStream,
-      //initialData: initialData ,
-      builder:(BuildContext context, AsyncSnapshot<List<TarefaModel>> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<List<TarefaModel>> snapshot) {
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
 
-        final tarefas = snapshot.data;
-        final max = tarefas.length;
-        if (tarefas.length == 0) {
+        if (snapshot.data.length == 0) {
           return Container(
             height: 150.0,
             width: double.infinity,
@@ -73,57 +63,63 @@ class _HomePageState extends State<HomePage> {
               child: Text("Parabens, nenhuma tarefa pendente."),
             ),
           );
-        }        
-        return Container(          
+        }
+
+        if(snapshot.data.length > 0){
+          return Container(
           child: Column(
             children: <Widget>[
-              for(var cont =0; cont < max; cont ++)
-                Column(
-                  children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0)
-                      ),
-                      child: Tarefa(tarefas[cont], tarefa.id, usuario)
-                    ),
-                    cont == 10
-                    ?FlatButton(
-                      onPressed: null, 
-                      child: Container(child: Icon(FontAwesomeIcons.angleDoubleDown),)
-                    )
-                    :Container()
-                  ],
-                )
+              Padding(
+                padding: EdgeInsets.only(left: 10.0, top: 10.0),
+                child: Titulo("tarefas", "Pendentes"),
+              ),
+              for (var cont = 0; cont < snapshot.data.length; cont++)
+                Tarefa(snapshot.data[cont], snapshot.data[cont].id, usuario)
             ],
           ),
         );
+        }
+
+        return Container();
       },
     );
   }
 
-  Widget _blocoDeNotas() {
-    return Container(
-      padding: EdgeInsets.all(10.0),
-      child: Column(
-        children: <Widget>[
-          Titulo("blocoDe", "Notas"),
-          _notas(),
-          _notas(),
-          _notas(),
-          _notas(),
-        ],
-      ),
+  Widget _blocoDeNotas(NotasBloc notas) {
+    return StreamBuilder(
+      stream: notas.notasStream,
+      builder: (BuildContext context,
+          AsyncSnapshot<List<BlocoDeNotasModel>> snapshot) {
+        if (!snapshot.hasData) {
+          return Container();
+        }
+
+        if (snapshot.data.length > 0) {
+          return Container(
+            padding: EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Titulo("blocoDe", "Notas"),
+                for (var nota = 0; nota < snapshot.data.length; nota++)
+                  _notas(snapshot.data[nota], notas),
+              ],
+            ),
+          );
+        }
+        print(snapshot.data.length.toString());
+        return Container();
+      },
     );
   }
 
-  Widget _notas() {
+  Widget _notas(BlocoDeNotasModel nota, NotasBloc notaBloc) {
     return Stack(
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(top: 10.0),
           padding: EdgeInsets.all(20.0),
-          child: Text(
-              "Isso é uma nota a ser observada em algum dia e por mais que tente ela nunca sera tao grande assim"),
+          child: Text(nota.nota),
           decoration: BoxDecoration(
               color: Color.fromRGBO(218, 242, 39, 1.0),
               borderRadius: BorderRadius.circular(5)),
@@ -131,10 +127,13 @@ class _HomePageState extends State<HomePage> {
         Positioned(
             right: -10,
             top: 0,
-            child:
-                IconButton(icon: Icon(Icons.delete_forever), onPressed: null))
+            child: IconButton(
+                icon: Icon(Icons.delete_forever),
+                onPressed: () {
+                  notaBloc.deletarNota(nota, usuario);
+                  Navigator.pushReplacementNamed(context, "home");
+                }))
       ],
     );
   }
-
 }
