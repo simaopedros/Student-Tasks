@@ -85,12 +85,30 @@ class _MateriaPageState extends State<MateriaPage> {
                           for (var indice = 0;
                               indice < snapshot.data.length;
                               indice++)
-                            ItemMateria(snapshot.data[indice].materia,
-                                Color.fromRGBO(
-                                  snapshot.data[indice].corr == 255?000:snapshot.data[indice].corr, 
-                                  snapshot.data[indice].corg == 255?000:snapshot.data[indice].corg, 
-                                  snapshot.data[indice].corb == 255?000:snapshot.data[indice].corb,
-                                  1.0)),
+                            Dismissible(
+                              key: UniqueKey(),
+                              direction: DismissDirection.startToEnd,
+                              onDismissed: (c) => _materiaBloc.deletarNota(snapshot.data[indice], usuario),
+                              
+                                                          child: ItemMateria(snapshot.data[indice].materia,
+                                  Color.fromRGBO(
+                                    snapshot.data[indice].corr == 255?000:snapshot.data[indice].corr, 
+                                    snapshot.data[indice].corg == 255?000:snapshot.data[indice].corg, 
+                                    snapshot.data[indice].corb == 255?000:snapshot.data[indice].corb,
+                                    1.0)),
+                                    background: Container(
+                                      color: Colors.red,
+                                      child: Row(
+                                        children: <Widget>[
+                                          SizedBox(width: 15.0,),
+                                          Icon(FontAwesomeIcons.trashAlt, color: Colors.white,),
+                                          Expanded(child: Container()),
+                                          
+                                          
+                                        ],
+                                      ),
+                                    ),
+                            ),
                         ],
                       ),
                     );
@@ -100,9 +118,6 @@ class _MateriaPageState extends State<MateriaPage> {
                 },
               ),
 
-              // ItemMateria("Quimica", Color.fromRGBO(164, 44, 206, 1.0)),
-              // ItemMateria("Fisica", Color.fromRGBO(206, 93, 44, 1.0)),
-              // ItemMateria("Historia", Color.fromRGBO(206, 44, 83, 1.0)),
             ],
           ),
         )));
