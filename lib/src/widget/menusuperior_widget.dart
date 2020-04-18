@@ -6,9 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-class BarraSuperior extends StatefulWidget {
-
-
+class BarraSuperior extends StatefulWidget {  
 
   @override
   _BarraSuperiorState createState() => _BarraSuperiorState();
@@ -18,6 +16,7 @@ class _BarraSuperiorState extends State<BarraSuperior> {
   TextEditingController _controller;
   TarefaModel tarefas = new TarefaModel();
 
+  
 
   @override
   void initState() { 
@@ -29,8 +28,10 @@ class _BarraSuperiorState extends State<BarraSuperior> {
   @override
   Widget build(BuildContext context) {
 
-    
+   
    TarefasBloc tarefasBloc = new TarefasBloc();
+
+    
 
     return Container(
       width: double.infinity,

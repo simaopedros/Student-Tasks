@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+
 import 'package:appuniversitario/src/bloc/materias_bloc.dart';
 import 'package:appuniversitario/src/widget/appbar_widget.dart';
 import 'package:appuniversitario/src/widget/cardstory_widget.dart';
@@ -9,10 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MateriaPage extends StatefulWidget {
-
-
-  
-
 
   @override
   _MateriaPageState createState() => _MateriaPageState();
@@ -124,9 +121,13 @@ class _MateriaPageState extends State<MateriaPage> {
   }
 
   Future _addMateria(
-      BuildContext context, MateriaBloc materiaBloc, String usuario) {
+    BuildContext context, 
+    MateriaBloc materiaBloc, 
+    String usuario
+  ) {
     final _materiaController = new TextEditingController();
     final _materia = new MateriaModel();
+    
 
     return showDialog(
         builder: (c) {
@@ -325,11 +326,13 @@ class _AddMateriaState extends State<AddMateria> {
                   IconButton(
                       icon: Icon(FontAwesomeIcons.plusSquare),
                       onPressed: () {
+                        
                         widget._materia.corr = _corR;
                         widget._materia.corg = _corG;
                         widget._materia.corb = _corB;
-                        widget._materia.materia =
+                        widget._materia.materia =                        
                             widget._materiaController.value.text;
+                        
                         materiaBloc.criarMaterias(
                             widget._materia, 
                             widget.usuario
