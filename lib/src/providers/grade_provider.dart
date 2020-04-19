@@ -19,12 +19,21 @@ class GradeProvider {
 
   //!Deleta Grade
 
-  Future<bool> deletarGrade(GradeModel grade, String usuario) async {
-    final url = "$_url/$usuario/grades/${ grade.id }.json";
+  Future<bool> deletarGrade(String id, String usuario) async {
+    final url = "$_url/$usuario/grades/$id.json";
     await http.delete(url);
     return true;
   }
 
+
+  Future<bool> editarGrade(GradeModel grade, String usuario) async {
+    final url = "$_url/$usuario/grades/${ grade.id }.json";
+    await http.put(url);
+    return true;
+  }
+
+
+  
   //!Busca As Grades
 
   Future<List<GradeModel>> carregarGrade(String usuario) async{
@@ -44,83 +53,6 @@ class GradeProvider {
     });
 
     return grades;
-  }
-
-
-  //!Cria Dia de Aula
-
-  Future<bool> criarDiaDeAula(Diasdeaula dia, String usuario, String idMateria) async {
-    final url = "$_url/$usuario/grades/$idMateria/diasdeaula.json";
-    await http.post(url, body: dia.toJson());
-    return true;
-  }
-
-  //!Deleta Dia de Aula
-
-   Future<bool> deletarDiaDeAula(Diasdeaula dia, String usuario, String idMateria, String idDia) async {
-    final url = "$_url/$usuario/grades/$idMateria/diasdeaula/$idDia.json";
-    await http.delete(url);
-    return true;
-  }
-
-  //!Carregar Dias da Semana
-
-  Future<List<Diasdeaula>> carregarDiasDaSemana(String usuario, String idMateria) async {
-    final url = "$_url/$usuario/grades/$idMateria/diasdeaula.json";
-
-    final resp = await http.get(url);
-    final List<Diasdeaula> diasDeAula = new List();
-
-    final Map<String, dynamic> decodeDiaDeAula = json.decode(resp.body);
-
-    if (decodeDiaDeAula == null ) return [];
-
-    decodeDiaDeAula.forEach((id, dia){
-      final diaTemp = Diasdeaula.fromJson(dia);
-      diasDeAula.add(diaTemp);
-    });
-
-    return diasDeAula;
-  }
-
-  //! Criar Nota
-
-
-  Future<bool> criarNota(Notas nota, String usuario, String idMateria) async {
-    final url = "$_url/$usuario/grades/$idMateria/notas.json";
-    await http.post(url, body: nota.toJson());
-    return true;
-  }
-
-
- //! Deletar Nota
-
-Future<bool> deletarNota(Notas nota, String usuario, String idMateria, String idNota) async {
-    final url = "$_url/$usuario/grades/$idMateria/notas/$idNota.json";
-    await http.delete(url);
-    return true;
-  }
-
-
-  //!Listar Notas
-
-
-  Future<List<Notas>> carregarNotas(String usuario, String idMateria) async {
-    final url = "$_url/$usuario/grades/$idMateria/diasdeaula.json";
-
-    final resp = await http.get(url);
-    final List<Notas> notas = new List();
-
-    final Map<String, dynamic> decodeNotas = json.decode(resp.body);
-
-    if (decodeNotas == null ) return [];
-
-    decodeNotas.forEach((id, nota){
-      final notaTemp = Notas.fromJson(nota);
-      notas.add(notaTemp);
-    });
-
-    return notas;
   }
 
 

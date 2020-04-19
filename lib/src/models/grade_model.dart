@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final gradeModel = gradeModelFromJson(jsonString);
+
 import 'dart:convert';
 
 GradeModel gradeModelFromJson(String str) => GradeModel.fromJson(json.decode(str));
@@ -7,101 +11,103 @@ String gradeModelToJson(GradeModel data) => json.encode(data.toJson());
 class GradeModel {
     String id;
     String materia;
-    int corr;
-    int corg;
-    int corb;
-    int media;
-    Diasdeaula diasdeaula;
-    Notas notas;
+    double media;
+    double p1;
+    double p2;
+    double t1;
+    double t2;
+    bool seg;
+    bool ter;
+    bool que;
+    bool qui;
+    bool sex;
+    bool sab;
+    bool dom;
+    double pesop1;
+    double pesop2;
+    double pesot1;
+    double pesot2;
+    double pesob1;
+    double pesob2;
+    int corR;
+    int corG;
+    int corB;
 
     GradeModel({
         this.id,
         this.materia,
-        this.corr,
-        this.corg,
-        this.corb,
         this.media,
-        this.diasdeaula,
-        this.notas,
+        this.p1,
+        this.p2,
+        this.t1,
+        this.t2,
+        this.seg,
+        this.ter,
+        this.que,
+        this.qui,
+        this.sex,
+        this.sab,
+        this.dom,
+        this.pesop1,
+        this.pesop2,
+        this.pesot1,
+        this.pesot2,
+        this.pesob1,
+        this.pesob2,
+        this.corR,
+        this.corG,
+        this.corB,
     });
 
     factory GradeModel.fromJson(Map<String, dynamic> json) => GradeModel(
         id: json["id"],
         materia: json["materia"],
-        corr: json["corr"],
-        corg: json["corg"],
-        corb: json["corb"],
-        media: json["media"],
-        diasdeaula: Diasdeaula.fromJson(json["diasdeaula"]),
-        notas: Notas.fromJson(json["notas"]),
+        media: json["media"].toDouble(),
+        p1: json["p1"].toDouble(),
+        p2: json["p2"].toDouble(),
+        t1: json["t1"].toDouble(),
+        t2: json["t2"].toDouble(),
+        seg: json["seg"],
+        ter: json["ter"],
+        que: json["que"],
+        qui: json["qui"],
+        sex: json["sex"],
+        sab: json["sab"],
+        dom: json["dom"],
+        pesop1: json["pesop1"].toDouble(),
+        pesop2: json["pesop2"].toDouble(),
+        pesot1: json["pesot1"].toDouble(),
+        pesot2: json["pesot2"].toDouble(),
+        pesob1: json["pesob1"].toDouble(),
+        pesob2: json["pesob2"].toDouble(),
+        corR: json["corR"],
+        corG: json["corG"],
+        corB: json["corB"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "materia": materia,
-        "corr": corr,
-        "corg": corg,
-        "corb": corb,
         "media": media,
-        "diasdeaula": diasdeaula.toJson(),
-        "notas": notas.toJson(),
-    };
-}
-
-class Diasdeaula {
-    Diasdeaula();
-
-    factory Diasdeaula.fromJson(Map<String, dynamic> json) => Diasdeaula(
-    );
-
-    Map<String, dynamic> toJson() => {
-    };
-}
-
-class Notas {
-    P1 p1;
-    P1 t1;
-    P1 p2;
-    P1 t2;
-
-    Notas({
-        this.p1,
-        this.t1,
-        this.p2,
-        this.t2,
-    });
-
-    factory Notas.fromJson(Map<String, dynamic> json) => Notas(
-        p1: P1.fromJson(json["p1"]),
-        t1: P1.fromJson(json["t1"]),
-        p2: P1.fromJson(json["p2"]),
-        t2: P1.fromJson(json["t2"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "p1": p1.toJson(),
-        "t1": t1.toJson(),
-        "p2": p2.toJson(),
-        "t2": t2.toJson(),
-    };
-}
-
-class P1 {
-    int nota;
-    double peso;
-
-    P1({
-        this.nota,
-        this.peso,
-    });
-
-    factory P1.fromJson(Map<String, dynamic> json) => P1(
-        nota: json["nota"],
-        peso: json["peso"].toDouble(),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "nota": nota,
-        "peso": peso,
+        "p1": p1,
+        "p2": p2,
+        "t1": t1,
+        "t2": t2,
+        "seg": seg,
+        "ter": ter,
+        "que": que,
+        "qui": qui,
+        "sex": sex,
+        "sab": sab,
+        "dom": dom,
+        "pesop1": pesop1,
+        "pesop2": pesop2,
+        "pesot1": pesot1,
+        "pesot2": pesot2,
+        "pesob1": pesob1,
+        "pesob2": pesob2,
+        "corR": corR,
+        "corG": corG,
+        "corB": corB,
     };
 }

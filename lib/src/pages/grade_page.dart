@@ -13,21 +13,36 @@ class GradePage extends StatefulWidget {
 }
 
 class _GradePageState extends State<GradePage> {
-  String valorInicial;
+  GradesBloc gradesBloc = new GradesBloc();
+  MateriaBloc materiaBloc = new MateriaBloc();
+  String usuario = "simaopedros";
+  List<bool> item;
+  List<String> materias;
+  List<String> diasDaSeman;
+  String materiaSelecionada;
+  Color corMateria;
 
   @override
   void initState() {
-    valorInicial = "Selecione uma Materia";
+    item = [false, false, false, false, false, false, false];
+    materias = [];
+    diasDaSeman = [
+      "Segunda-feira",
+      "Terça-feira",
+      "Quarta-feira",
+      "Quinta-feira",
+      "Sexta-feira",
+      "Sabado",
+      "Domingo"
+    ];
+    materiaSelecionada = "";
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    GradesBloc gradesBloc = new GradesBloc();
-    MateriaBloc materiaBloc = new MateriaBloc();
-
-    gradesBloc.carregarGrades("simaopedros");
-    materiaBloc.carregarMaterias("simaopedros");
+    gradesBloc.carregarGrades(usuario);
+    materiaBloc.carregarMaterias(usuario);
 
     return Scaffold(
       appBar: appBarPadrao(context),
@@ -45,7 +60,7 @@ class _GradePageState extends State<GradePage> {
                   IconButton(
                       icon: Icon(FontAwesomeIcons.plus),
                       onPressed: () {
-                        _adicionarGrade(materiaBloc, gradesBloc);
+                        _selecionaMateria();
                       })
                 ],
               )),
@@ -57,147 +72,337 @@ class _GradePageState extends State<GradePage> {
     );
   }
 
-  _adicionarGrade(MateriaBloc materiaBloc, GradesBloc gradesBloc) {
+  _selecionaMateria() {
     return showDialog(
+      barrierDismissible: true,
       context: context,
       child: StreamBuilder(
         stream: materiaBloc.materiasStream,
         builder:
             (BuildContext context, AsyncSnapshot<List<MateriaModel>> snapshot) {
           if (!snapshot.hasData) {
-            return Scaffold(
-              backgroundColor: Colors.white,
-              body: Container(
-                margin: EdgeInsets.all(25.0),
-                child: Center(
-                  child: Text("Verificando lista de materias"),
-                ),
-              ),
-            );
+            return _aviso(0, snapshot);
           }
 
           if (snapshot.data.length == 0) {
-            return Scaffold(
-              backgroundColor: Colors.transparent,
-              body: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0)),
-                margin: EdgeInsets.all(50.0),
-                height: 200.0,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text("Adicione uma materia e depois volte aqui"),
-                      SizedBox(
-                        height: 25.0,
-                      ),
-                      FlatButton(
-                          onPressed: () =>
-                              Navigator.pushNamed(context, "materia"),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(10.0)),
-                            alignment: Alignment.center,
-                            height: 50.0,
-                            child: Text(
-                              "Adicionar Primeira Materia",
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 15.0),
-                            ),
-                          ))
-                    ],
-                  ),
-                ),
-              ),
-            );
+            return _aviso(1, snapshot);
           }
 
           if (snapshot.data.length > 0) {
-            return Scaffold(
-              backgroundColor: Colors.transparent,
-              body: SingleChildScrollView(
-                child: Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0)),
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                            padding: EdgeInsets.all(10.0),
-                            child: Titulo('Escolher ', 'Materia')),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Divider(
-                          height: 2.0,
-                        ),
-                        for (var item = 0; item < snapshot.data.length; item++)
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                child: FlatButton(
-                                  child: Text(snapshot.data[item].materia),
-                                  onPressed: () {
-                                    setState(() {
-                                      valorInicial =
-                                          snapshot.data[item].materia;
-                                    });
-                                    Navigator.pop(context);
-                                    _configurarMateria(
-                                      valorInicial,
-                                      Color.fromRGBO(
-                                          snapshot.data[item].corr,
-                                          snapshot.data[item].corg,
-                                          snapshot.data[item].corb,
-                                          1.0),
-                                      gradesBloc,
-                                    );
-                                  },
-                                ),
-                              ),
-                              Divider(
-                                height: 2.0,
-                                color: Colors.black12,
-                              )
-                            ],
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
+            return _aviso(2, snapshot);
           }
+
           return Container();
         },
       ),
     );
   }
 
-  _configurarMateria(String materia, Color corMateria, GradesBloc gradesBloc) {
-    print(valorInicial);
+  _aviso(int aviso, AsyncSnapshot<List<MateriaModel>> snapshot) {
+    print("object");
+    switch (aviso) {
+      case 0:
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5.0)),
+              height: 150.0,
+              width: 250.0,
+              child: Text("Verificando materias..."),
+            ),
+          ),
+        );
+        break;
+
+      case 1:
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5.0)),
+              height: 200.0,
+              width: 250.0,
+              child: _avisoSemMateria(),
+            ),
+          ),
+        );
+        break;
+
+      case 2:
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5.0)),
+              padding: EdgeInsets.all(8.0),
+              // height: 200.0,
+              width: 200.0,
+              child: _escolherMateria(snapshot),
+            ),
+          ),
+        );
+
+        break;
+
+      default:
+    }
+  }
+
+  _escolherMateria(AsyncSnapshot<List<MateriaModel>> snapshot) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Titulo("selecionar", "Materia"),
+          for (var item = 0; item < snapshot.data.length; item++)
+            Column(
+              children: <Widget>[
+                FlatButton(
+                    onPressed: () {
+                      setState(() {
+                        materiaSelecionada = snapshot.data[item].materia;
+                        corMateria = Color.fromRGBO(
+                            snapshot.data[item].corr,
+                            snapshot.data[item].corg,
+                            snapshot.data[item].corb,
+                            1.0);
+                      });
+                      Navigator.pop(context);
+                      _edtarMateria();
+                    },
+                    child: Text(snapshot.data[item].materia)),
+                Divider(
+                  height: 2.0,
+                )
+              ],
+            )
+        ],
+      ),
+    );
+  }
+
+  _edtarMateria() {
+    TextEditingController _p1Controller = new TextEditingController();
+    TextEditingController _pesoP1Controller = new TextEditingController();
+    TextEditingController _p2Controller = new TextEditingController();
+    TextEditingController _pesoP2Controller = new TextEditingController();    
+    
+    TextEditingController _t1Controller = new TextEditingController();
+    TextEditingController _pesoT1Controller = new TextEditingController();
+    TextEditingController _t2Controller = new TextEditingController();
+    TextEditingController _pesot2Controller = new TextEditingController();
+
+    TextEditingController _pesoB1Controller = new TextEditingController();
+    TextEditingController _pesoB2Controller = new TextEditingController();
+
     return showDialog(
         context: context,
         child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SingleChildScrollView(
-            child: Center(
+            backgroundColor: Colors.transparent,
+            body: Center(
               child: Container(
+                padding: EdgeInsets.all(8.0),
                 height: MediaQuery.of(context).size.height * 0.8,
                 width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0)),
-                    //!CONTINUAR DAQUI -- FAZER TELA PARA ADICIONAR GRADE
-                    child: Text(valorInicial),
+                    borderRadius: BorderRadius.circular(5.0)),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Titulo("editar", materiaSelecionada),
+                      SizedBox(
+                        height: 15.0,
+                      ),
+                      Text("Selecione os dias de aula"),
+                      SizedBox(
+                        height: 15.0,
+                      ),
+                      for (var i = 0; i < diasDaSeman.length; i++) //----
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                                key: UniqueKey(),
+                                value: item[i],
+                                onChanged: (c) {
+                                  setState(() {
+                                    item[i] = c;
+                                  });
+                                  Navigator.pop(context);
+                                  _edtarMateria();
+                                }),
+                            Text(diasDaSeman[i])
+                          ],
+                        ),
+                      SizedBox(
+                        height: 15.0,
+                      ),
+                      Text("Configuração de notas"),
+                      SizedBox(
+                        height: 15.0,
+                      ),
+                      _linhaConfgMateria(_p1Controller, _pesoP1Controller, "Nota P1", "6.0", "Peso da nota", "0.6"),
+                      _linhaConfgMateria(_t1Controller, _pesoT1Controller, "Nota T1", "6.0", "Peso da nota", "0.6"),
+                      _linhaConfgMateria(_p2Controller, _pesoP2Controller, "Nota P2", "6.0", "Peso da nota", "0.6"),
+                      _linhaConfgMateria(_t2Controller, _pesot2Controller, "Nota T2", "6.0", "Peso da nota", "0.4"),
+                      _linhaConfgMateria(_pesoB1Controller, _pesoB2Controller, "1ª Bim", "Peso", "2ª Bim", "Peso"),
+                      SizedBox(
+                        height: 15.0,
+                      ),
+                      FlatButton(                       
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.08,
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          decoration: BoxDecoration(
+                              color: Colors.blueAccent,
+                              borderRadius: BorderRadius.circular(5.0)),
+                          child: Center(
+                            child: Text("Adicionar Grade"),
+                          ),
+                        ),
+
+                         onPressed: () {
+                           GradeModel gradeModel = new GradeModel();
+
+                           gradeModel.materia = materiaSelecionada;
+                           gradeModel.p1 = double.parse(_p1Controller.value.text);
+                           gradeModel.t1 = double.parse(_t1Controller.value.text);
+                           gradeModel.p2 = double.parse(_p2Controller.value.text);
+                           gradeModel.t2 = double.parse(_t2Controller.value.text);
+                           gradeModel.pesop1 = double.parse(_pesoP1Controller.value.text);
+                           gradeModel.pesot1 = double.parse(_pesoT1Controller.value.text);
+                           gradeModel.pesop2 = double.parse(_pesoP2Controller.value.text);
+                           gradeModel.pesot2 = double.parse(_pesot2Controller.value.text);
+                           gradeModel.pesob1 = double.parse(_pesoB1Controller.value.text);
+                           gradeModel.pesob2 = double.parse(_pesoB2Controller.value.text);
+
+                           gradeModel.seg = item[0];
+                           gradeModel.ter = item[1];
+                           gradeModel.que = item[2];
+                           gradeModel.qui = item[3];
+                           gradeModel.sex = item[4];
+                           gradeModel.sab = item[5];
+                           gradeModel.dom = item[6];
+
+                           gradeModel.corR = corMateria.red;
+                           gradeModel.corG = corMateria.green;
+                           gradeModel.corB = corMateria.blue;
+                           
+                           gradesBloc.adicionarGrade(gradeModel, usuario);
+
+                           Navigator.pop(context);
+
+
+                         },
+                      ),
+                      SizedBox(
+                        height: 15.0,
+                      ),
+                    ],
+                  ),
+                ),
               ),
+            )));
+  }
+
+  _avisoSemMateria() {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                width: 5.0,
+              ),
+              Icon(
+                FontAwesomeIcons.exclamationTriangle,
+                color: Colors.redAccent,
+                size: 15.0,
+              ),
+              SizedBox(
+                width: 10.0,
+              ),
+              Titulo("nenhuma", "Materia"),
+              Expanded(child: Container())
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Text("Adicione ao menos uma materia e volte aqui!"),
+          ),
+          Expanded(
+              child: Center(
+            child: FlatButton(
+                color: Colors.blueAccent,
+                onPressed: () {},
+                child: Text("Adicionar Materia")),
+          ))
+        ],
+      ),
+    );
+  }
+
+  Widget _linhaConfgMateria(TextEditingController c1, TextEditingController c2,
+      String textoPeso1, String pesoNota1, String textoPeso2, String pesoNota2) {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 5.0,
+        ),
+        Container(
+          padding: EdgeInsets.all(5.0),
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(5.0),
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  height: MediaQuery.of(context).size.height * 0.10,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: Colors.black12),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                          child: TextField(
+                            controller: c1,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        decoration: InputDecoration(
+                            labelText: textoPeso1,
+                            hintText: pesoNota1,
+                            border: OutlineInputBorder()),
+                      )),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Expanded(
+                          child: TextField(
+                            controller: c2,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        decoration: InputDecoration(
+                            labelText: textoPeso2,
+                            hintText: pesoNota2,
+                            border: OutlineInputBorder()),
+                      )),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
-        ));
+        )
+      ],
+    );
   }
 }
