@@ -1,6 +1,3 @@
-
-
-
 import 'package:appuniversitario/src/models/bocodenotas_model.dart';
 export 'package:appuniversitario/src/models/bocodenotas_model.dart';
 
@@ -10,6 +7,7 @@ export 'package:appuniversitario/src/providers/blocodenotas_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NotasBloc {
+  
   final _notasController = new BehaviorSubject<List<BlocoDeNotasModel>>();
   final _carregandoNotaController = new BehaviorSubject<bool>();
 

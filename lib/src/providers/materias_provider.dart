@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
 import 'package:appuniversitario/src/models/materia_model.dart';

@@ -11,11 +11,11 @@ String gradeModelToJson(GradeModel data) => json.encode(data.toJson());
 class GradeModel {
     String id;
     String materia;
-    double media;
-    double p1;
-    double p2;
-    double t1;
-    double t2;
+    String media;
+    String p1;
+    String p2;
+    String t1;
+    String t2;
     bool seg;
     bool ter;
     bool que;
@@ -23,12 +23,12 @@ class GradeModel {
     bool sex;
     bool sab;
     bool dom;
-    double pesop1;
-    double pesop2;
-    double pesot1;
-    double pesot2;
-    double pesob1;
-    double pesob2;
+    String pesop1;
+    String pesop2;
+    String pesot1;
+    String pesot2;
+    String pesob1;
+    String pesob2;
     int corR;
     int corG;
     int corB;
@@ -62,11 +62,11 @@ class GradeModel {
     factory GradeModel.fromJson(Map<String, dynamic> json) => GradeModel(
         id: json["id"],
         materia: json["materia"],
-        media: json["media"].toDouble(),
-        p1: json["p1"].toDouble(),
-        p2: json["p2"].toDouble(),
-        t1: json["t1"].toDouble(),
-        t2: json["t2"].toDouble(),
+        media: json["media"],
+        p1: json["p1"],
+        p2: json["p2"],
+        t1: json["t1"],
+        t2: json["t2"],
         seg: json["seg"],
         ter: json["ter"],
         que: json["que"],
@@ -74,12 +74,12 @@ class GradeModel {
         sex: json["sex"],
         sab: json["sab"],
         dom: json["dom"],
-        pesop1: json["pesop1"].toDouble(),
-        pesop2: json["pesop2"].toDouble(),
-        pesot1: json["pesot1"].toDouble(),
-        pesot2: json["pesot2"].toDouble(),
-        pesob1: json["pesob1"].toDouble(),
-        pesob2: json["pesob2"].toDouble(),
+        pesop1: json["pesop1"],
+        pesop2: json["pesop2"],
+        pesot1: json["pesot1"],
+        pesot2: json["pesot2"],
+        pesob1: json["pesob1"],
+        pesob2: json["pesob2"],
         corR: json["corR"],
         corG: json["corG"],
         corB: json["corB"],

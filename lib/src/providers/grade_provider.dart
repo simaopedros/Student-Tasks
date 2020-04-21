@@ -5,20 +5,16 @@ import 'package:appuniversitario/src/models/grade_model.dart';
 
 class GradeProvider {
 
-  //!URL
+   final String _url = "https://meusapp-931b4.firebaseio.com";
 
-  final String _url = "https://meusapp-931b4.firebaseio.com";
-
-  //!Cria Grade
-
+  
   Future<bool> criarGrade(GradeModel grade, String usuario) async {
     final url = "$_url/$usuario/grades.json";
     await http.post(url, body: gradeModelToJson(grade));
     return true;
   }
 
-  //!Deleta Grade
-
+  
   Future<bool> deletarGrade(String id, String usuario) async {
     final url = "$_url/$usuario/grades/$id.json";
     await http.delete(url);
@@ -28,30 +24,36 @@ class GradeProvider {
 
   Future<bool> editarGrade(GradeModel grade, String usuario) async {
     final url = "$_url/$usuario/grades/${ grade.id }.json";
-    await http.put(url);
+    print(url);
+    await http.put(url, body: gradeModelToJson(grade));
     return true;
   }
 
 
   
-  //!Busca As Grades
+  
+  Future<List<GradeModel>> carregarGrades(String usuario) async {    
+    final url = "$_url/$usuario/grades.json";  
+    print(url);  
+    final resp = await http.get(url);    
+    print(resp);  
 
-  Future<List<GradeModel>> carregarGrade(String usuario) async{
-    final url = "$_url/$usuario/grades.json";
-
-    final resp = await http.get(url);
     final List<GradeModel> grades = new List();
 
     final Map<String, dynamic> decodeGrade = json.decode(resp.body);
+    print(decodeGrade); 
 
     if(decodeGrade == null) return [];
-
+    
     decodeGrade.forEach((id, grade){
-      final gradeTemp = GradeModel.fromJson(grade);
-      gradeTemp.id = id;
-      grades.add(gradeTemp);
+      print(id);
+      print(grade);
+      final gradTemp = GradeModel.fromJson(grade);
+      gradTemp.id = id;
+      grades.add(gradTemp);
     });
 
+    
     return grades;
   }
 

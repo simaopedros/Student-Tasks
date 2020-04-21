@@ -13,8 +13,9 @@ class GradePage extends StatefulWidget {
 }
 
 class _GradePageState extends State<GradePage> {
-  GradesBloc gradesBloc = new GradesBloc();
   MateriaBloc materiaBloc = new MateriaBloc();
+  GradesBloc gradesBloc = new GradesBloc();
+
   String usuario = "simaopedros";
   List<bool> item;
   List<String> materias;
@@ -41,8 +42,8 @@ class _GradePageState extends State<GradePage> {
 
   @override
   Widget build(BuildContext context) {
-    gradesBloc.carregarGrades(usuario);
     materiaBloc.carregarMaterias(usuario);
+    gradesBloc.carregarG(usuario);
 
     return Scaffold(
       appBar: appBarPadrao(context),
@@ -65,8 +66,39 @@ class _GradePageState extends State<GradePage> {
                 ],
               )),
           Container(
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              child: ItemGrade(Color.fromRGBO(57, 44, 206, 1.0))),
+            margin: EdgeInsets.symmetric(horizontal: 5.0),
+            child: StreamBuilder(
+              stream: gradesBloc.gradesStream,
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<GradeModel>> s) {
+                if (!s.hasData) {
+                  print(s.data.toString());
+                  return Container(
+                    child: Text("Verificando grade..."),
+                  );
+                }
+
+                if (s.data.length == 0) {
+                  return Container(
+                    child: Text("Adicione uma grade"),
+                  );
+                }
+
+                if (s.data.length > 0) {
+                  return Column(
+                    children: <Widget>[
+                      for(var i = 0; i < s.data.length; i++)
+                        ItemGrade(s.data[i], gradesBloc, usuario)
+                    ],
+                  );
+                }
+
+                return Container();
+              },
+            ),
+          ),
+
+          //
         ],
       ))),
     );
@@ -188,18 +220,28 @@ class _GradePageState extends State<GradePage> {
   }
 
   _edtarMateria() {
-    TextEditingController _p1Controller = new TextEditingController();
-    TextEditingController _pesoP1Controller = new TextEditingController();
-    TextEditingController _p2Controller = new TextEditingController();
-    TextEditingController _pesoP2Controller = new TextEditingController();    
-    
-    TextEditingController _t1Controller = new TextEditingController();
-    TextEditingController _pesoT1Controller = new TextEditingController();
-    TextEditingController _t2Controller = new TextEditingController();
-    TextEditingController _pesot2Controller = new TextEditingController();
+    TextEditingController _p1Controller =
+        new TextEditingController(text: "0.0");
+    TextEditingController _pesoP1Controller =
+        new TextEditingController(text: "0.0");
+    TextEditingController _p2Controller =
+        new TextEditingController(text: "0.0");
+    TextEditingController _pesoP2Controller =
+        new TextEditingController(text: "0.0");
 
-    TextEditingController _pesoB1Controller = new TextEditingController();
-    TextEditingController _pesoB2Controller = new TextEditingController();
+    TextEditingController _t1Controller =
+        new TextEditingController(text: "0.0");
+    TextEditingController _pesoT1Controller =
+        new TextEditingController(text: "0.0");
+    TextEditingController _t2Controller =
+        new TextEditingController(text: "0.0");
+    TextEditingController _pesot2Controller =
+        new TextEditingController(text: "0.0");
+
+    TextEditingController _pesoB1Controller =
+        new TextEditingController(text: "0.0");
+    TextEditingController _pesoB2Controller =
+        new TextEditingController(text: "0.0");
 
     return showDialog(
         context: context,
@@ -248,15 +290,20 @@ class _GradePageState extends State<GradePage> {
                       SizedBox(
                         height: 15.0,
                       ),
-                      _linhaConfgMateria(_p1Controller, _pesoP1Controller, "Nota P1", "6.0", "Peso da nota", "0.6"),
-                      _linhaConfgMateria(_t1Controller, _pesoT1Controller, "Nota T1", "6.0", "Peso da nota", "0.6"),
-                      _linhaConfgMateria(_p2Controller, _pesoP2Controller, "Nota P2", "6.0", "Peso da nota", "0.6"),
-                      _linhaConfgMateria(_t2Controller, _pesot2Controller, "Nota T2", "6.0", "Peso da nota", "0.4"),
-                      _linhaConfgMateria(_pesoB1Controller, _pesoB2Controller, "1ª Bim", "Peso", "2ª Bim", "Peso"),
+                      _linhaConfgMateria(_p1Controller, _pesoP1Controller,
+                          "Nota P1", "6.0", "Peso da nota", "0.6"),
+                      _linhaConfgMateria(_t1Controller, _pesoT1Controller,
+                          "Nota T1", "6.0", "Peso da nota", "0.6"),
+                      _linhaConfgMateria(_p2Controller, _pesoP2Controller,
+                          "Nota P2", "6.0", "Peso da nota", "0.6"),
+                      _linhaConfgMateria(_t2Controller, _pesot2Controller,
+                          "Nota T2", "6.0", "Peso da nota", "0.4"),
+                      _linhaConfgMateria(_pesoB1Controller, _pesoB2Controller,
+                          "1ª Bim", "Peso", "2ª Bim", "Peso"),
                       SizedBox(
                         height: 15.0,
                       ),
-                      FlatButton(                       
+                      FlatButton(
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.08,
                           width: MediaQuery.of(context).size.width * 0.7,
@@ -267,40 +314,37 @@ class _GradePageState extends State<GradePage> {
                             child: Text("Adicionar Grade"),
                           ),
                         ),
+                        onPressed: () {
+                          GradeModel gradeModel = new GradeModel();
 
-                         onPressed: () {
-                           GradeModel gradeModel = new GradeModel();
+                          gradeModel.materia  = materiaSelecionada;
+                          gradeModel.p1       = _p1Controller.value.text;
+                          gradeModel.t1       = _t1Controller.value.text;
+                          gradeModel.p2       = _p2Controller.value.text;
+                          gradeModel.t2       = _t2Controller.value.text;
+                          gradeModel.pesop1   = _pesoP1Controller.value.text;
+                          gradeModel.pesot1   = _pesoT1Controller.value.text;
+                          gradeModel.pesop2   = _pesoP2Controller.value.text;
+                          gradeModel.pesot2   = _pesot2Controller.value.text;
+                          gradeModel.pesob1   = _pesoB1Controller.value.text;
+                          gradeModel.pesob2   = _pesoB2Controller.value.text;
 
-                           gradeModel.materia = materiaSelecionada;
-                           gradeModel.p1 = double.parse(_p1Controller.value.text);
-                           gradeModel.t1 = double.parse(_t1Controller.value.text);
-                           gradeModel.p2 = double.parse(_p2Controller.value.text);
-                           gradeModel.t2 = double.parse(_t2Controller.value.text);
-                           gradeModel.pesop1 = double.parse(_pesoP1Controller.value.text);
-                           gradeModel.pesot1 = double.parse(_pesoT1Controller.value.text);
-                           gradeModel.pesop2 = double.parse(_pesoP2Controller.value.text);
-                           gradeModel.pesot2 = double.parse(_pesot2Controller.value.text);
-                           gradeModel.pesob1 = double.parse(_pesoB1Controller.value.text);
-                           gradeModel.pesob2 = double.parse(_pesoB2Controller.value.text);
+                          gradeModel.seg = item[0];
+                          gradeModel.ter = item[1];
+                          gradeModel.que = item[2];
+                          gradeModel.qui = item[3];
+                          gradeModel.sex = item[4];
+                          gradeModel.sab = item[5];
+                          gradeModel.dom = item[6];
 
-                           gradeModel.seg = item[0];
-                           gradeModel.ter = item[1];
-                           gradeModel.que = item[2];
-                           gradeModel.qui = item[3];
-                           gradeModel.sex = item[4];
-                           gradeModel.sab = item[5];
-                           gradeModel.dom = item[6];
+                          gradeModel.corR = corMateria.red;
+                          gradeModel.corG = corMateria.green;
+                          gradeModel.corB = corMateria.blue;
 
-                           gradeModel.corR = corMateria.red;
-                           gradeModel.corG = corMateria.green;
-                           gradeModel.corB = corMateria.blue;
-                           
-                           gradesBloc.adicionarGrade(gradeModel, usuario);
+                          gradesBloc.adicionarGrade(gradeModel, usuario);
 
-                           Navigator.pop(context);
-
-
-                         },
+                          Navigator.pop(context);
+                        },
                       ),
                       SizedBox(
                         height: 15.0,
@@ -351,8 +395,13 @@ class _GradePageState extends State<GradePage> {
     );
   }
 
-  Widget _linhaConfgMateria(TextEditingController c1, TextEditingController c2,
-      String textoPeso1, String pesoNota1, String textoPeso2, String pesoNota2) {
+  Widget _linhaConfgMateria(
+      TextEditingController c1,
+      TextEditingController c2,
+      String textoPeso1,
+      String pesoNota1,
+      String textoPeso2,
+      String pesoNota2) {
     return Column(
       children: <Widget>[
         SizedBox(
@@ -374,9 +423,8 @@ class _GradePageState extends State<GradePage> {
                     children: <Widget>[
                       Expanded(
                           child: TextField(
-                            controller: c1,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        controller: c1,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                             labelText: textoPeso1,
                             hintText: pesoNota1,
@@ -387,9 +435,8 @@ class _GradePageState extends State<GradePage> {
                       ),
                       Expanded(
                           child: TextField(
-                            controller: c2,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        controller: c2,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                             labelText: textoPeso2,
                             hintText: pesoNota2,
