@@ -194,59 +194,59 @@ class ItemGrade extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Center(
-            child: SingleChildScrollView(
-                          child: Container(
+            child: Container(
                 height: MediaQuery.of(context).size.height * 0.8,
                 width: MediaQuery.of(context).size.width * 0.8,
                 color: Colors.white,
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                      child: Titulo("editar", "${gradeModel.materia}"),
-                    ),
-                    _linhaConfgMateria(_p1, _pesoP1, "Nota P1", "${gradeModel.p1}", "Peso P1", "${gradeModel.pesop1}", context),
-                    _linhaConfgMateria(_t1, _pesoT1, "Nota T1", "${gradeModel.t1}", "Peso T1", "${gradeModel.pesot1}", context),
-                    _linhaConfgMateria(_p2, _pesoP2, "Nota P2", "${gradeModel.p2}", "Peso P2", "${gradeModel.pesop2}", context),
-                    _linhaConfgMateria(_t2, _pesot2, "Nota T2", "${gradeModel.t2}", "Peso T2", "${gradeModel.pesot2}", context),
-                    _linhaConfgMateria(_pesoB1, _pesoB2, "Peso B1", "${gradeModel.pesob1}", "Peso B2", "${gradeModel.pesob2}", context),
-                    
-                    SizedBox(height: 15.0,),
+                child: SingleChildScrollView(
+                                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                        child: Titulo("editar", "${gradeModel.materia}"),
+                      ),
+                      _linhaConfgMateria(_p1, _pesoP1, "Nota P1", "${gradeModel.p1}", "Peso P1", "${gradeModel.pesop1}", context),
+                      _linhaConfgMateria(_t1, _pesoT1, "Nota T1", "${gradeModel.t1}", "Peso T1", "${gradeModel.pesot1}", context),
+                      _linhaConfgMateria(_p2, _pesoP2, "Nota P2", "${gradeModel.p2}", "Peso P2", "${gradeModel.pesop2}", context),
+                      _linhaConfgMateria(_t2, _pesot2, "Nota T2", "${gradeModel.t2}", "Peso T2", "${gradeModel.pesot2}", context),
+                      _linhaConfgMateria(_pesoB1, _pesoB2, "Peso B1", "${gradeModel.pesob1}", "Peso B2", "${gradeModel.pesob2}", context),
+                      
+                      SizedBox(height: 15.0,),
 
-                    FlatButton(
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.08,
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            decoration: BoxDecoration(
-                                color: Colors.blueAccent,
-                                borderRadius: BorderRadius.circular(5.0)),
-                            child: Center(
-                              child: Text("Editar Grade"),
-                            ),
-                          ),                        
-                          onPressed: () {                    
-                            
-                            gradeModel.p1     = _p1.value.text;
-                            gradeModel.t1     = _t1.value.text;
-                            gradeModel.p2     = _p2.value.text;
-                            gradeModel.t2     = _t2.value.text;
-                            gradeModel.pesop1 = _pesoP1.value.text;
-                            gradeModel.pesot1 = _pesoT1.value.text;
-                            gradeModel.pesop2 = _pesoP2.value.text;
-                            gradeModel.pesot2 = _pesot2.value.text;
-                            gradeModel.pesob1 = _pesoB1.value.text;
-                            gradeModel.pesob2 = _pesoB2.value.text;                          
+                      FlatButton(
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.08,
+              width: MediaQuery.of(context).size.width * 0.7,
+              decoration: BoxDecoration(
+                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(5.0)),
+              child: Center(
+                  child: Text("Editar Grade"),
+              ),
+            ),                        
+            onPressed: () {                    
+              
+              gradeModel.p1     = _p1.value.text;
+              gradeModel.t1     = _t1.value.text;
+              gradeModel.p2     = _p2.value.text;
+              gradeModel.t2     = _t2.value.text;
+              gradeModel.pesop1 = _pesoP1.value.text;
+              gradeModel.pesot1 = _pesoT1.value.text;
+              gradeModel.pesop2 = _pesoP2.value.text;
+              gradeModel.pesot2 = _pesot2.value.text;
+              gradeModel.pesob1 = _pesoB1.value.text;
+              gradeModel.pesob2 = _pesoB2.value.text;                          
 
-                            gradesBloc.editarGrade(gradeModel, usuario);
+              gradesBloc.editarGrade(gradeModel, usuario);
 
-                            Navigator.pop(context);
-                          },
-                        ),
-                    
-                    ],
+              Navigator.pop(context);
+            },
+                          ),
+                      SizedBox(height: 15.0,),
+                      ],
+                  ),
                 ),
               ),
-            ),
           ),
         ));
   }

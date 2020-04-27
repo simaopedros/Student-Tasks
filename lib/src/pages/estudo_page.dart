@@ -1,3 +1,4 @@
+import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 import 'package:appuniversitario/src/widget/appbar_widget.dart';
 import 'package:appuniversitario/src/widget/cardstory_widget.dart';
 import 'package:appuniversitario/src/widget/itemestudo_widget.dart';
@@ -5,13 +6,16 @@ import 'package:appuniversitario/src/widget/titulo_widget.dart';
 import 'package:flutter/material.dart';
 
 class EstudoPage extends StatelessWidget {
-
-  final String usuario = "simaopedros"; 
+  
 
   @override
   Widget build(BuildContext context) {
 
-    
+    // final usuarioPrefer = new PreferenciasUsuario();
+    // usuarioPrefer.ultimaPagina = "estudo";
+
+    final _prefs = new PreferenciasUsuario();
+    final String usuario = _prefs.usuario; 
 
     final List diasSemana = [
       "Segunda-feira",
@@ -32,8 +36,8 @@ class EstudoPage extends StatelessWidget {
               CardStory(),
               Container(padding: EdgeInsets.all(10.0), child: Titulo("meus", "Estudos")),
               for(var dia = 0; dia < diasSemana.length; dia++)              
-                ItemEstudo(diasSemana[dia], usuario)
-              
+                ItemEstudo(diasSemana[dia], usuario),
+              SizedBox(height: 50.0,),
             ],
           ),
         ),

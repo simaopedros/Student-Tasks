@@ -18,16 +18,16 @@ class NotasBloc {
 
   void carregarNotas(String usuario) async {
     _carregandoNotaController.add(true);
-    _notasController.sink.add(await _blocoDeNotasProvider.carregarNotas(usuario));
+    _notasController.sink.add(await _blocoDeNotasProvider.carregarNotas());
     _carregandoNotaController.add(false);
   }
 
   void deletarNota (BlocoDeNotasModel nota, String usuario){
-    _blocoDeNotasProvider.deletarNota(nota, usuario);
+    _blocoDeNotasProvider.deletarNota(nota);
   }
 
   void criarNota (BlocoDeNotasModel nota, String usuario){
-    _blocoDeNotasProvider.criarNota(nota, usuario);
+    _blocoDeNotasProvider.criarNota(nota);
   }
 
 

@@ -15,17 +15,17 @@ class EstudosBloc {
 
 
   void carregarEstudosSemana(String usuario, String diaDaSemana) async {
-    _estudosController.sink.add(await _estudosProvider.carregarEstudosSemana(usuario, diaDaSemana));
+    _estudosController.sink.add(await _estudosProvider.carregarEstudosSemana( diaDaSemana));
   }
 
   void adicionarEstudo(EstudosModel estudo, String diaSemana, String usuario)async{
-    await _estudosProvider.criarEstudo(estudo, diaSemana, usuario);
+    await _estudosProvider.criarEstudo(estudo, diaSemana);
     carregarEstudosSemana(usuario, diaSemana);
   }
 
 
   void deletarEstudo(String diaSemana, String estudoId, String usuario)async{
-    await _estudosProvider.deletarEstudo(diaSemana, estudoId, usuario);
+    await _estudosProvider.deletarEstudo(diaSemana, estudoId);
     carregarEstudosSemana(usuario, diaSemana);
   }
 

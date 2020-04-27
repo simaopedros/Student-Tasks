@@ -2,6 +2,7 @@ import 'dart:ui';
 
 
 import 'package:appuniversitario/src/bloc/materias_bloc.dart';
+import 'package:appuniversitario/src/bloc/provider.dart';
 import 'package:appuniversitario/src/widget/appbar_widget.dart';
 import 'package:appuniversitario/src/widget/cardstory_widget.dart';
 import 'package:appuniversitario/src/widget/itemmateria_widget.dart';
@@ -16,10 +17,7 @@ class MateriaPage extends StatefulWidget {
 }
 
 class _MateriaPageState extends State<MateriaPage> {
-  final usuario = "simaopedros";
-
-  
-  
+   
 
   @override
   void initState() {
@@ -29,8 +27,9 @@ class _MateriaPageState extends State<MateriaPage> {
   @override
   Widget build(BuildContext context) {
     
+    final bloc = Provider.materiaBloc(context);
     MateriaBloc _materiaBloc = new MateriaBloc();
-    _materiaBloc.carregarMaterias(usuario);
+    bloc.carregarMaterias();
 
     return Scaffold(
         appBar: appBarPadrao(context),
@@ -52,13 +51,13 @@ class _MateriaPageState extends State<MateriaPage> {
                         size: 20.0,
                       ),
                       onPressed: () {
-                        _addMateria(context, _materiaBloc, usuario);
+                        _addMateria(context, _materiaBloc);
                       })
                 ],
               ),
 
               StreamBuilder(
-                stream: _materiaBloc.materiasStream,
+                stream: bloc.materiasStream,
                 builder: (BuildContext context,
                     AsyncSnapshot<List<MateriaModel>> snapshot) {
                   if (!snapshot.hasData) {
@@ -85,7 +84,7 @@ class _MateriaPageState extends State<MateriaPage> {
                             Dismissible(
                               key: UniqueKey(),
                               direction: DismissDirection.startToEnd,
-                              onDismissed: (c) => _materiaBloc.deletarNota(snapshot.data[indice], usuario),
+                              onDismissed: (c) => bloc.deletarNota(snapshot.data[indice]),
                               
                                                           child: ItemMateria(snapshot.data[indice].materia,
                                   Color.fromRGBO(
@@ -123,7 +122,6 @@ class _MateriaPageState extends State<MateriaPage> {
   Future _addMateria(
     BuildContext context, 
     MateriaBloc materiaBloc, 
-    String usuario
   ) {
     final _materiaController = new TextEditingController();
     final _materia = new MateriaModel();
@@ -134,7 +132,6 @@ class _MateriaPageState extends State<MateriaPage> {
           return AddMateria(
             materiaController: _materiaController,
             materia: _materia,
-            usuario: usuario,
           );
         },
         context: context);
@@ -172,7 +169,8 @@ class _AddMateriaState extends State<AddMateria> {
 
   @override
   Widget build(BuildContext context) {
-    MateriaBloc materiaBloc = new MateriaBloc();
+    
+    final bloc = Provider.materiaBloc(context);   
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -333,11 +331,10 @@ class _AddMateriaState extends State<AddMateria> {
                         widget._materia.materia =                        
                             widget._materiaController.value.text;
                         
-                        materiaBloc.criarMaterias(
-                            widget._materia, 
-                            widget.usuario
+                        bloc.criarMaterias(
+                            widget._materia,
                         );
-                        Navigator.popAndPushNamed(context, "materia");
+                       Navigator.pop(context);
                       })
                 ],
               ),

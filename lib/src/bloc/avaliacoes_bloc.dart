@@ -13,17 +13,18 @@ class AvaliacaoBloc {
   Stream<List<AvaliacoesModel>> get avaliacaoStream => _avaliacaoController.stream;
 
   void carregarAvaliacoes(String usuario) async {
-    _avaliacaoController.sink.add( await _avaliacaoProvider.carregarAvaliacao(usuario));
+    _avaliacaoController.sink.add( await _avaliacaoProvider.carregarAvaliacao());
   }
 
   void criarAvaliacoes(AvaliacoesModel avaliacao, String usuario) async {
-    _avaliacaoProvider.criarAvaliacao(avaliacao, usuario);
+    await _avaliacaoProvider.criarAvaliacao(avaliacao);
     carregarAvaliacoes(usuario);
 
   }
   void deletarAvaliacoes(String idAvaliacao, String usuario) async {
-    _avaliacaoProvider.deletarAvaliacao(idAvaliacao, usuario);
+    await _avaliacaoProvider.deletarAvaliacao(idAvaliacao);
     carregarAvaliacoes(usuario);
+    
 
   }
 

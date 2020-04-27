@@ -17,25 +17,25 @@ class EventosBloc {
   Stream<bool> get carregando => _carregandoController.stream;
 
   void carregarEventos(String usuario) async {
-    _eventosController.sink.add(await _eventosProvider.carregarEventos(usuario));
+    _eventosController.sink.add(await _eventosProvider.carregarEventos());
   }
 
   void adicionarEvento(EventosModel evento, String usuario) async {
     _carregandoController.sink.add(true);
-    await _eventosProvider.criarEvento(evento, usuario);
+    await _eventosProvider.criarEvento(evento);
     _carregandoController.sink.add(false);
     carregarEventos(usuario);
   }
 
   void atualizarEvento(EventosModel evento, String usuario) async {
     _carregandoController.sink.add(true);
-    await _eventosProvider.atualizarEvento(evento, usuario);
+    await _eventosProvider.atualizarEvento(evento);
     _carregandoController.sink.add(false);
     carregarEventos(usuario);
   }
 
   void apagarEvento(String id, String usuario) async {
-    await _eventosProvider.deletarEvento(id, usuario);
+    await _eventosProvider.deletarEvento(id);
     carregarEventos(usuario);
   }
 

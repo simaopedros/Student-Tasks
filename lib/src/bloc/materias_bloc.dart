@@ -13,17 +13,17 @@ class MateriaBloc {
   Stream<List<MateriaModel>> get materiasStream => _materiaController.stream;
 
 
-  void carregarMaterias(String usuario) async {
-    _materiaController.sink.add(await _materiaProvider.carregarMaterias(usuario));
+  void carregarMaterias() async {
+    _materiaController.sink.add(await _materiaProvider.carregarMaterias());
   }
 
-  void criarMaterias(MateriaModel materia, String usuario) async {
-    await _materiaProvider.criarMateria(materia, usuario);
-    carregarMaterias(usuario);
+  void criarMaterias(MateriaModel materia) async {
+    await _materiaProvider.criarMateria(materia);
+    carregarMaterias();
   }
 
-  void deletarNota(MateriaModel materia, String usuario) async {
-    _materiaProvider.deletarMateria(materia, usuario);
+  void deletarNota(MateriaModel materia) async {
+    _materiaProvider.deletarMateria(materia);
   }
 
   dispose(){

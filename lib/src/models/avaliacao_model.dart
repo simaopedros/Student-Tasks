@@ -15,7 +15,7 @@ class AvaliacoesModel {
     int corR;
     int corG;
     int corB;
-    List<String> conteudo;
+    String conteudo;
 
     AvaliacoesModel({
         this.id,
@@ -34,7 +34,7 @@ class AvaliacoesModel {
         corR: json["corR"],
         corG: json["corG"],
         corB: json["corB"],
-        conteudo: List<String>.from(json["conteudo"].map((x) => x)),
+        conteudo: json["conteudo"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -44,6 +44,6 @@ class AvaliacoesModel {
         "corR": corR,
         "corG": corG,
         "corB": corB,
-        "conteudo": List<dynamic>.from(conteudo.map((x) => x)),
+        "conteudo": conteudo,
     };
 }

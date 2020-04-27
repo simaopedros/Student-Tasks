@@ -1,3 +1,5 @@
+import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniversitario/src/bloc/notas_bloc.dart';
 import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
@@ -7,27 +9,84 @@ import 'package:appuniversitario/src/widget/listadetarefas_widget.dart';
 import 'package:appuniversitario/src/widget/menusuperior_widget.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
 
+// const String testDevice = '4200a35502b5c4d9';
+
 class HomePage extends StatefulWidget {
+  
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final String usuario = "simaopedros";
+
+    static final MobileAdTargetingInfo targetingInfo = new MobileAdTargetingInfo(
+    testDevices: <String>["FC819F38909485567ABCC171138A71FA", "441D51944CC1BB47847FA05D37484958"],
+    keywords: <String>['Escola', 'Faculdade', 'Cursos', 'Enem'],
+    childDirected: true,
+  );
+
+  BannerAd _bannerAd;
+  InterstitialAd _interstitialAd;
+
+  BannerAd createBannerAd(){
+    return new BannerAd(
+      adUnitId: "ca-app-pub-6361762260659022/1744802029", 
+      size: AdSize.banner,
+      targetingInfo: targetingInfo,
+      listener: (MobileAdEvent event){
+        print("Banner Event: $event");
+      }
+    );
+  }
+
+
+  InterstitialAd crearintertAd(){
+    return new InterstitialAd(
+      adUnitId: "ca-app-pub-6361762260659022/7207760509",       
+      targetingInfo: targetingInfo,
+      listener: (MobileAdEvent event){
+        print("Interstitial Event: $event");
+      }
+    );
+  }
+
+
+  
+  final usuarioPrefer = new PreferenciasUsuario();
+  String usuario = "simaopedros";
+  DateTime tempo;
+
 
   @override
   void initState() {
+    FirebaseAdMob.instance.initialize(appId: "ca-app-pub-6361762260659022/1744802029");
+    _bannerAd = createBannerAd()
+    ..load()
+    ..show();
+    tempo = DateTime.now();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    
+    _bannerAd?.dispose();
+    _interstitialAd?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
 
+    
+    
     TarefasBloc tarefaBloc = new TarefasBloc();
     NotasBloc notasBloc = new NotasBloc();
 
     tarefaBloc.carregarTarefas(usuario);
     notasBloc.carregarNotas(usuario);
+    
+    usuarioPrefer.ultimaPagina = "home";
 
     return Scaffold(
         appBar: appBarPadrao(context),
@@ -38,6 +97,7 @@ class _HomePageState extends State<HomePage> {
               CardStory(),
               _listaTarefas(tarefaBloc),
               _blocoDeNotas(notasBloc),
+              SizedBox(height: 50.0,)
             ],
           ),
         ));
@@ -49,6 +109,7 @@ class _HomePageState extends State<HomePage> {
       stream: tarefaBloc.tarefasStream,
       builder:
           (BuildContext context, AsyncSnapshot<List<TarefaModel>> snapshot) {
+            print("AQUI: ${snapshot.error}");
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(),

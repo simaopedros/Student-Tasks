@@ -1,5 +1,6 @@
 import 'package:appuniversitario/src/bloc/grades_bloc.dart';
 import 'package:appuniversitario/src/bloc/materias_bloc.dart';
+import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 import 'package:appuniversitario/src/widget/appbar_widget.dart';
 import 'package:appuniversitario/src/widget/cardstory_widget.dart';
 import 'package:appuniversitario/src/widget/itemgrade_widget.dart';
@@ -13,6 +14,9 @@ class GradePage extends StatefulWidget {
 }
 
 class _GradePageState extends State<GradePage> {
+
+  
+
   MateriaBloc materiaBloc = new MateriaBloc();
   GradesBloc gradesBloc = new GradesBloc();
 
@@ -42,7 +46,12 @@ class _GradePageState extends State<GradePage> {
 
   @override
   Widget build(BuildContext context) {
-    materiaBloc.carregarMaterias(usuario);
+
+    final usuarioPrefer = new PreferenciasUsuario();
+    usuarioPrefer.ultimaPagina = "grade";
+
+
+    materiaBloc.carregarMaterias();
     gradesBloc.carregarG(usuario);
 
     return Scaffold(
@@ -364,19 +373,15 @@ class _GradePageState extends State<GradePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              
               SizedBox(
                 width: 5.0,
               ),
-              Icon(
-                FontAwesomeIcons.exclamationTriangle,
-                color: Colors.redAccent,
-                size: 15.0,
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
               Titulo("nenhuma", "Materia"),
-              Expanded(child: Container())
+              Expanded(child: Container()),
+              IconButton(
+                icon: Icon(FontAwesomeIcons.windowClose, size: 25.0,), 
+                onPressed: () => Navigator.pop(context))
             ],
           ),
           Padding(
@@ -387,7 +392,9 @@ class _GradePageState extends State<GradePage> {
               child: Center(
             child: FlatButton(
                 color: Colors.blueAccent,
-                onPressed: () {},
+                onPressed: (){                 
+                  Navigator.pushNamed(context, "materia");
+                },
                 child: Text("Adicionar Materia")),
           ))
         ],

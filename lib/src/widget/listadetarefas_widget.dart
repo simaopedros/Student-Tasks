@@ -33,62 +33,79 @@ class _TarefaState extends State<Tarefa> {
 
     tarefaBloc.carregarTarefas("simaopedros");
 
-    return GestureDetector(
-      onLongPress: () =>
-          _abrirTarefas(widget.usuario, widget.id, widget.tarefa, eventoModel),
-      child: Hero(
-        tag: widget.tarefa.id,
-        child: Container(
-            child: Dismissible(
-          key: UniqueKey(),
-          direction: DismissDirection.startToEnd,
-          background: Container(
-            color: Colors.red,
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 10.0,
-                ),
-                Icon(
-                  FontAwesomeIcons.trash,
-                  color: Colors.white,
-                  size: 15.0,
-                ),
-                SizedBox(
-                  width: 10.0,
-                ),
-                Text(
-                  "Deletar",
-                  style: TextStyle(color: Colors.white),
-                ),
-                Expanded(child: Container()),
-              ],
-            ),
+    return Hero(
+      tag: widget.tarefa.id,
+      child: Container(
+          child: Dismissible(
+        key: UniqueKey(),
+        secondaryBackground: Container(
+          color: Colors.orange,
+          child: Row(
+            children: <Widget>[
+              Expanded(child: Container()),              
+              Text("Criar Evento", style: TextStyle(color: Colors.white),),
+              SizedBox(width: 15.0,),
+              Icon(FontAwesomeIcons.clock, color: Colors.white, size: 15.0,),
+              SizedBox(width: 10.0,)
+            ],
           ),
-          child: ListTile(
-            title: Text(
-              widget.tarefa.tarefa,
-              style: GoogleFonts.roboto(
-                  decoration: widget.tarefa.status == false
-                      ? TextDecoration.lineThrough
-                      : TextDecoration.none),
-            ),
-            //leading: Icon(Icons.calendar_view_day),
-            trailing: IconButton(
-                icon: Icon(widget.tarefa.status == true
-                    ? Icons.check_box_outline_blank
-                    : Icons.check_box),
-                onPressed: () {
-                  setState(() {
-                    _aterarStatus(widget.tarefa, "simaopedros", tarefaBloc);
-                  });
-                }),
+        ),
+        background: Container(
+          color: Colors.red,
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                width: 10.0,
+              ),
+              Icon(
+                FontAwesomeIcons.trash,
+                color: Colors.white,
+                size: 15.0,
+              ),
+              SizedBox(
+                width: 10.0,
+              ),
+              Text(
+                "Deletar",
+                style: TextStyle(color: Colors.white),
+              ),
+              Expanded(child: Container()),
+            ],
           ),
-          onDismissed: (c) {
+        ),
+        child: ListTile(
+          title: Text(
+            widget.tarefa.tarefa,
+            style: GoogleFonts.roboto(
+                decoration: widget.tarefa.status == false
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none),
+          ),
+          //leading: Icon(Icons.calendar_view_day),
+          trailing: IconButton(
+              icon: Icon(widget.tarefa.status == true
+                  ? Icons.check_box_outline_blank
+                  : Icons.check_box),
+              onPressed: () {
+                setState(() {
+                  _aterarStatus(widget.tarefa, "simaopedros", tarefaBloc);
+                });
+              }),
+        ),
+        onDismissed: (c) {
+
+          if(c == DismissDirection.endToStart){
+            _abrirTarefas(widget.usuario, widget.id, widget.tarefa, eventoModel);
+            tarefaBloc.carregarTarefas(widget.usuario);
+          }
+
+          if (c == DismissDirection.startToEnd){
             _deletarTarefa(widget.tarefa.id, "simaopedros", tarefaBloc);
-          },
-        )),
-      ),
+          }
+
+          
+        },
+      )),
     );
   }
 

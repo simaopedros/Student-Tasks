@@ -14,22 +14,22 @@ class GradesBloc {
   Stream<List<GradeModel>> get gradesStream => _gradesController.stream;
 
   void carregarG(String user) async {
-    _gradesController.sink.add(await _gradeProvider.carregarGrades(user));
+    _gradesController.sink.add(await _gradeProvider.carregarGrades());
   }
 
   void adicionarGrade(GradeModel grade, String usuario) async {
-    await _gradeProvider.criarGrade(grade, usuario);
+    await _gradeProvider.criarGrade(grade);
     carregarG(usuario);
   }
 
 
   void editarGrade(GradeModel grade, String usuario) async {
-    await _gradeProvider.editarGrade(grade, usuario);
+    await _gradeProvider.editarGrade(grade);
     carregarG(usuario);
   }
 
   void deletarGrade(String id, String usuario) async {
-    await _gradeProvider.deletarGrade(id, usuario);
+    await _gradeProvider.deletarGrade(id);
     carregarG(usuario);
   }
 

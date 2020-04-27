@@ -6,11 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 class CardStory extends StatelessWidget {
   final eventoBloc = new EventosBloc();
   final evento = new EventosModel();
-  
+  final String usuario = "simaopedros";
   @override
   Widget build(BuildContext context) {
 
-    eventoBloc.carregarEventos("simaopedros");    
+    eventoBloc.carregarEventos(usuario);    
 
     return Container(
       padding: EdgeInsets.all(10.0),
@@ -30,7 +30,13 @@ class CardStory extends StatelessWidget {
               builder: (BuildContext context,
                   AsyncSnapshot<List<EventosModel>> snapshot) {               
 
-                if (snapshot.hasData) {
+                if(!snapshot.hasData){
+                  return SizedBox.shrink();
+                }
+                if(snapshot.data.length == 0){
+                  return Center(child: Text("Voce ainda não criou nenhum evento"),);
+                }
+                if (snapshot.data.length > 0) {
                   final dados = snapshot.data;
                   final qdtCards = dados.length;
 
@@ -62,67 +68,74 @@ class CardStory extends StatelessWidget {
   Widget _cardStory(EventosModel evento) {
     
     
-    return Container(
-      margin: EdgeInsets.only(right: 10.0),
-      child: Container(
-        height: 109.0,
-        width: 74.0,
+    return FlatButton(
+      onPressed: null,
+      key: UniqueKey(),
+      onLongPress: (){
+        eventoBloc.apagarEvento(evento.id, usuario);
+      },
+          child: Container(
+        margin: EdgeInsets.only(right: 10.0),
         child: Container(
-            child: Stack(
-          children: <Widget>[
-            Container(
-              height: 109.0,
-              width: 74.0,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  gradient: LinearGradient(
-                      begin: FractionalOffset(0.0, 0.5),
-                      end: FractionalOffset(0.0, 1.0),
-                      colors: [Colors.redAccent, Colors.black87])),
-            ),
-            // ClipRRect(
-            //   borderRadius: BorderRadius.circular(8.0),
-            //   child: Container(child: Image(
-            //     height: 109.0,
-            //     width: 74.0,
-            //     image: AssetImage("assets/evento.png"), fit: BoxFit.fitWidth,))
-            // ),
-            Container(
-              padding: EdgeInsets.all(5.0),
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    evento.tipoevento,
-                    style: GoogleFonts.roboto(color: Colors.white,
-                        fontSize: 15.0, fontWeight: FontWeight.bold),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(evento.prazo,
+          height: 109.0,
+          width: 74.0,
+          child: Container(
+              child: Stack(
+            children: <Widget>[
+              Container(
+                height: 109.0,
+                width: 74.0,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    gradient: LinearGradient(
+                        begin: FractionalOffset(0.0, 0.5),
+                        end: FractionalOffset(0.0, 1.0),
+                        colors: [Colors.redAccent, Colors.black87])),
+              ),
+              // ClipRRect(
+              //   borderRadius: BorderRadius.circular(8.0),
+              //   child: Container(child: Image(
+              //     height: 109.0,
+              //     width: 74.0,
+              //     image: AssetImage("assets/evento.png"), fit: BoxFit.fitWidth,))
+              // ),
+              Container(
+                padding: EdgeInsets.all(5.0),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      evento.tipoevento,
+                      style: GoogleFonts.roboto(color: Colors.white,
+                          fontSize: 15.0, fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(evento.prazo,
+                        style: GoogleFonts.roboto(
+                          color: Colors.white,
+                          fontSize: 8.0),
+                        overflow: TextOverflow.ellipsis),
+                    Text(
+                      evento.hora,
                       style: GoogleFonts.roboto(
                         color: Colors.white,
-                        fontSize: 8.0),
-                      overflow: TextOverflow.ellipsis),
-                  Text(
-                    evento.hora,
-                    style: GoogleFonts.roboto(
-                      color: Colors.white,
-                        fontSize: 15.0, fontWeight: FontWeight.bold),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Expanded(
-                      child: Text(
-                          evento.descricao,
-                          textAlign: TextAlign.justify,
-                          style: GoogleFonts.roboto(
-                            color: Colors.white,
-                            fontSize: 10.0,
-                          ),
-                          overflow: TextOverflow.clip)),
-                ],
+                          fontSize: 15.0, fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Expanded(
+                        child: Text(
+                            evento.descricao,
+                            textAlign: TextAlign.justify,
+                            style: GoogleFonts.roboto(
+                              color: Colors.white,
+                              fontSize: 10.0,
+                            ),
+                            overflow: TextOverflow.clip)),
+                  ],
+                ),
               ),
-            ),
-          ],
-        )),
+            ],
+          )),
+        ),
       ),
     );
   }

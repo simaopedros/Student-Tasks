@@ -34,7 +34,7 @@ class _BarraSuperiorState extends State<BarraSuperior> {
     
 
     return Container(
-      width: double.infinity,
+      // width: double.infinity,
       color: Color.fromRGBO(56, 44, 206, 1.0),
       child: SafeArea(
           child: Column(
@@ -95,79 +95,91 @@ class _BarraSuperiorState extends State<BarraSuperior> {
 }
 
 Widget _menuSuperios(BuildContext context) {
-  return Container(
-    padding: EdgeInsets.all(10.0),
+  return Container(    
+    padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        FlatButton(
-            onPressed: () => Navigator.pushNamed(context, "provas"),
-            child: Column(
-              children: <Widget>[
-                Icon(
-                  FontAwesomeIcons.fileSignature,
-                  color: Colors.white,
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  "PROVAS",
-                  style: TextStyle(color: Colors.white),
-                )
-              ],
-            )),
-        FlatButton(
-            onPressed: () => Navigator.pushNamed(context, 'grade'),
-            child: Column(
-              children: <Widget>[
-                Icon(
-                  FontAwesomeIcons.thLarge,
-                  color: Colors.white,
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  "GRADE",
-                  style: TextStyle(color: Colors.white),
-                )
-              ],
-            )),
-        FlatButton(
-            onPressed: () => Navigator.pushNamed(context, 'estudo'),
-            child: Column(
-              children: <Widget>[
-                Icon(
-                  FontAwesomeIcons.bookReader,
-                  color: Colors.white,
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  "ESTUDOS",
-                  style: TextStyle(color: Colors.white),
-                )
-              ],
-            )),
-        FlatButton(
-            onPressed: () => Navigator.pushNamed(context, 'materia'),
-            child: Column(
-              children: <Widget>[
-                Icon(
-                  FontAwesomeIcons.book,
-                  color: Colors.white,
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  "MATERIAS",
-                  style: TextStyle(color: Colors.white),
-                )
-              ],
-            )),
+        Container(
+          width: MediaQuery.of(context).size.width*0.20,
+          child: FlatButton(
+              onPressed: () => Navigator.pushNamed(context, "provas"),
+              child: Column(
+                children: <Widget>[
+                  Icon(
+                    FontAwesomeIcons.fileSignature,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "PROVAS",
+                    style: TextStyle(color: Colors.white, fontSize: 8.0),
+                  )
+                ],
+              )),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width*0.20,
+          child: FlatButton(
+              onPressed: () => Navigator.pushNamed(context, 'grade'),
+              child: Column(
+                children: <Widget>[
+                  Icon(
+                    FontAwesomeIcons.thLarge,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "GRADE",
+                    style: TextStyle(color: Colors.white, fontSize: 8.0),
+                  )
+                ],
+              )),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width*0.20,
+          child: FlatButton(
+              onPressed: () => Navigator.pushNamed(context, 'estudo'),
+              child: Column(
+                children: <Widget>[
+                  Icon(
+                    FontAwesomeIcons.bookReader,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "ESTUDOS",
+                    style: TextStyle(color: Colors.white, fontSize: 8.0),
+                  )
+                ],
+              )),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width*0.20,
+          child: FlatButton(
+              onPressed: () => Navigator.pushNamed(context, 'materia'),
+              child: Column(
+                children: <Widget>[
+                  Icon(
+                    FontAwesomeIcons.book,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "MATERIAS",
+                    style: TextStyle(color: Colors.white, fontSize: 8.0, ),
+                  )
+                ],
+              )),
+        ),
       ],
     ),
   );

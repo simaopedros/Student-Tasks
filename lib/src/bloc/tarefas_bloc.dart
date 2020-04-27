@@ -17,32 +17,36 @@ class TarefasBloc {
     Stream<bool>              get carregando => _carregandoControler.stream;
 
     void carregarTarefas(String usuario) async {
-      _tarefasControler.sink.add(await _tarefasProvider.carregarTarefas(usuario));
+      _tarefasControler.sink.add(await _tarefasProvider.carregarTarefas());
     }
 
     void carregarUmaTarefa(String usuario, String tarefaId) async {
-      _umaTarefaController.sink.add(await _tarefasProvider.carregarUmaTarefa(usuario, tarefaId));
+      _umaTarefaController.sink.add(await _tarefasProvider.carregarUmaTarefa(tarefaId));
     }
     
 
     void adicionarTarefa(TarefaModel tarefa, String usuario) async {
       _carregandoControler.sink.add(true);
-      await _tarefasProvider.criarTarefa(tarefa, usuario);
+      await _tarefasProvider.criarTarefa(tarefa);
       _carregandoControler.sink.add(false);
       carregarTarefas(usuario);
     }
 
     void atualizarTarefa(TarefaModel tarefa, String usuario) async {
       _carregandoControler.sink.add(true);
-      await _tarefasProvider.atualizarTarefa(tarefa, usuario);
+      await _tarefasProvider.atualizarTarefa(tarefa);
       _carregandoControler.sink.add(false);
       carregarTarefas(usuario);
     }
 
     void apagarTarefa(String id, String usuario) async {
-      await _tarefasProvider.apagarTarefa(id, usuario);
-      carregarTarefas(usuario);
-  
+      await _tarefasProvider.apagarTarefa(id);
+      carregarTarefas(usuario);  
+    }
+
+    Future<bool> verificarLogado() async {
+      final estaLogado = await _tarefasProvider.verificaLogado();
+      return estaLogado;
     }
 
 
