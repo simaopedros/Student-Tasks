@@ -1,3 +1,4 @@
+import 'package:appuniversitario/src/bloc/provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
@@ -28,8 +29,8 @@ class _BarraSuperiorState extends State<BarraSuperior> {
   @override
   Widget build(BuildContext context) {
 
+   final tarefasBloc = Provider.tarefasBloc(context);
    
-   TarefasBloc tarefasBloc = new TarefasBloc();
 
     
 
@@ -89,8 +90,6 @@ class _BarraSuperiorState extends State<BarraSuperior> {
       _controller.text = "";
       tarefasBloc.adicionarTarefa(tarefas, "simaopedros");  
     });
-    
-    Navigator.pushReplacementNamed(context, "home");
   }
 }
 

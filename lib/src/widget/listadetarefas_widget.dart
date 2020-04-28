@@ -273,7 +273,8 @@ class _TarefaState extends State<Tarefa> {
                                 "Criar Evento",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 25.0),
-                              ))))
+                              )))),
+                              SizedBox(height: 50.0,)
                     ],
                   ),
                 ),

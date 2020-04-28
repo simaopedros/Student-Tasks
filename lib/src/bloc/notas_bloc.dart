@@ -22,8 +22,9 @@ class NotasBloc {
     _carregandoNotaController.add(false);
   }
 
-  void deletarNota (BlocoDeNotasModel nota, String usuario){
-    _blocoDeNotasProvider.deletarNota(nota);
+  void deletarNota (BlocoDeNotasModel nota, String usuario) async {
+    await _blocoDeNotasProvider.deletarNota(nota);
+    carregarNotas(usuario);
   }
 
   void criarNota (BlocoDeNotasModel nota, String usuario){

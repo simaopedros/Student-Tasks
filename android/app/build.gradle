@@ -47,12 +47,12 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "br.com.sps.student"
+        //!applicationId "br.com.sps.studentdev"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 5
-        versionName "2.0.0"
+        versionCode 7
+        versionName "2.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

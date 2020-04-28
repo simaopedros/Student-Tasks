@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-
 import 'package:appuniversitario/src/bloc/materias_bloc.dart';
 import 'package:appuniversitario/src/bloc/provider.dart';
 import 'package:appuniversitario/src/widget/appbar_widget.dart';
@@ -28,7 +25,7 @@ class _MateriaPageState extends State<MateriaPage> {
   Widget build(BuildContext context) {
     
     final bloc = Provider.materiaBloc(context);
-    MateriaBloc _materiaBloc = new MateriaBloc();
+    //MateriaBloc _materiaBloc = new MateriaBloc();
     bloc.carregarMaterias();
 
     return Scaffold(
@@ -51,7 +48,7 @@ class _MateriaPageState extends State<MateriaPage> {
                         size: 20.0,
                       ),
                       onPressed: () {
-                        _addMateria(context, _materiaBloc);
+                        _addMateria(context, bloc);
                       })
                 ],
               ),

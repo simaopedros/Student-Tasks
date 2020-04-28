@@ -1,3 +1,4 @@
+import 'package:appuniversitario/src/bloc/provider.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
@@ -78,13 +79,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    
-    
-    TarefasBloc tarefaBloc = new TarefasBloc();
-    NotasBloc notasBloc = new NotasBloc();
-
-    tarefaBloc.carregarTarefas(usuario);
+     
+    final notasBloc = Provider.notasBloc(context);
     notasBloc.carregarNotas(usuario);
+
+    final tarefaBloc = Provider.tarefasBloc(context);
+    tarefaBloc.carregarTarefas(usuario);
+    
     
     usuarioPrefer.ultimaPagina = "home";
 
@@ -190,9 +191,10 @@ class _HomePageState extends State<HomePage> {
             top: 0,
             child: IconButton(
                 icon: Icon(Icons.delete_forever),
-                onPressed: () {
-                  notaBloc.deletarNota(nota, usuario);
-                  Navigator.pushReplacementNamed(context, "home");
+                onPressed: () async {
+                  notaBloc.deletarNota(nota, usuario);                  
+
+                 // Navigator.pushReplacementNamed(context, "home");
                 }))
       ],
     );

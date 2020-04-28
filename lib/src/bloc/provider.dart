@@ -1,5 +1,6 @@
 import 'package:appuniversitario/src/bloc/login_bloc.dart';
 import 'package:appuniversitario/src/bloc/materias_bloc.dart';
+import 'package:appuniversitario/src/bloc/notas_bloc.dart';
 export 'package:appuniversitario/src/bloc/login_bloc.dart';
 
 
@@ -14,6 +15,7 @@ class Provider extends InheritedWidget{
   final tarefaBloc = new TarefasBloc();
   final _loginBloc = new LoginBloc();
   final _materiaBloc = new MateriaBloc();
+  final _notasBloc = new NotasBloc();
 
   Provider({Key key, Widget child})
     : super (key: key, child: child);
@@ -33,4 +35,7 @@ class Provider extends InheritedWidget{
     return context.dependOnInheritedWidgetOfExactType<Provider>()._materiaBloc;
   }
   
+  static NotasBloc notasBloc(BuildContext context){
+    return context.dependOnInheritedWidgetOfExactType<Provider>()._notasBloc;
+  }
 }
