@@ -51,8 +51,8 @@ android {
         //!applicationId "br.com.sps.studentdev"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 7
-        versionName "2.0.2"
+        versionCode 10
+        versionName "2.0.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -84,3 +84,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
+
+apply plugin: 'com.google.gms.google-services'

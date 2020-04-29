@@ -2,14 +2,20 @@ import 'dart:convert';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 import 'package:appuniversitario/src/providers/usuario_provieder.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 import 'package:appuniversitario/src/models/tarefa_model.dart';
 
 class TarefasProvider{
 
+  FirebaseUser user;
+  
+  
   final String _url = 'https://meusapp-931b4.firebaseio.com';
   final _prefs = new PreferenciasUsuario();
   final loginProvider = new Usuariorovider();
+
 
   Future<bool> verificaLogado() async{
     final url = '$_url/${ _prefs.usuario }/tarefas.json?auth=${_prefs.token}';

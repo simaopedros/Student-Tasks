@@ -27,8 +27,9 @@ class NotasBloc {
     carregarNotas(usuario);
   }
 
-  void criarNota (BlocoDeNotasModel nota, String usuario){
-    _blocoDeNotasProvider.criarNota(nota);
+  void criarNota (BlocoDeNotasModel nota, String usuario)async{
+    await _blocoDeNotasProvider.criarNota(nota);
+    carregarNotas(usuario);
   }
 
 

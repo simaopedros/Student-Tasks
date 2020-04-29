@@ -18,8 +18,8 @@ void main()async{
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget {
-  
 
+  
   final inicialPage = PreferenciasUsuario();
   final tarefasBloc = TarefasBloc();
   

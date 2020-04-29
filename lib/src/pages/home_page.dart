@@ -22,7 +22,8 @@ class _HomePageState extends State<HomePage> {
 
     static final MobileAdTargetingInfo targetingInfo = new MobileAdTargetingInfo(
     testDevices: <String>["FC819F38909485567ABCC171138A71FA", "441D51944CC1BB47847FA05D37484958"],
-    keywords: <String>['Escola', 'Faculdade', 'Cursos', 'Enem'],
+    keywords: <String>[
+      'Escola', 'Faculdade', 'Cursos', 'Enem', 'Emprego', 'Estagio', 'Empreendedorismo'],
     childDirected: true,
   );
 
@@ -60,10 +61,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    FirebaseAdMob.instance.initialize(appId: "ca-app-pub-6361762260659022/1744802029");
-    _bannerAd = createBannerAd()
-    ..load()
-    ..show();
+     FirebaseAdMob.instance.initialize(appId: "ca-app-pub-6361762260659022/1744802029");
+     _bannerAd = createBannerAd()
+     ..load()
+     ..show();
     tempo = DateTime.now();
     super.initState();
   }
@@ -109,11 +110,13 @@ class _HomePageState extends State<HomePage> {
     return StreamBuilder(
       stream: tarefaBloc.tarefasStream,
       builder:
-          (BuildContext context, AsyncSnapshot<List<TarefaModel>> snapshot) {
-            print("AQUI: ${snapshot.error}");
+          (BuildContext context, AsyncSnapshot<List<TarefaModel>> snapshot) {            
         if (!snapshot.hasData) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: FlatButton(onPressed: (){
+              tarefaBloc.carregarTarefas(usuario);
+            }, 
+            child: Center(child: Text("Se demorar pra recarregar, verifique se sua internet esta ativada e depois toque aqui"))),
           );
         }
 

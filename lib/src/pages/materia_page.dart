@@ -102,6 +102,7 @@ class _MateriaPageState extends State<MateriaPage> {
                                       ),
                                     ),
                             ),
+                            SizedBox(height: 50.0,)
                         ],
                       ),
                     );

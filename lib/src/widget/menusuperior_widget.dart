@@ -51,9 +51,12 @@ class _BarraSuperiorState extends State<BarraSuperior> {
             padding: EdgeInsets.all(5.0),
             margin: EdgeInsets.symmetric(horizontal: 20.0),
             child: TextField(
+              
+              expands: false,
               autofocus: false,
               controller: _controller,
               decoration: InputDecoration(
+                
                   hintText: "Nova Tarefa",                  
                   icon: Container(
                     width: 34.0,
@@ -71,6 +74,8 @@ class _BarraSuperiorState extends State<BarraSuperior> {
                       ),
                     ),
                   ),
+                  
+                  
                   border: InputBorder.none),
             ),
           ),

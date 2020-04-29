@@ -1,12 +1,19 @@
+import 'package:flutter/material.dart';
+
+import 'package:appuniversitario/src/bloc/eventos_bloc.dart';
+export 'package:appuniversitario/src/bloc/eventos_bloc.dart';
+
 import 'package:appuniversitario/src/bloc/login_bloc.dart';
-import 'package:appuniversitario/src/bloc/materias_bloc.dart';
-import 'package:appuniversitario/src/bloc/notas_bloc.dart';
 export 'package:appuniversitario/src/bloc/login_bloc.dart';
+
+import 'package:appuniversitario/src/bloc/materias_bloc.dart';
+export 'package:appuniversitario/src/bloc/materias_bloc.dart';
+
+import 'package:appuniversitario/src/bloc/notas_bloc.dart';
+export 'package:appuniversitario/src/bloc/notas_bloc.dart';
 
 
 import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
-import 'package:flutter/material.dart';
-
 export 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
 
 
@@ -16,6 +23,7 @@ class Provider extends InheritedWidget{
   final _loginBloc = new LoginBloc();
   final _materiaBloc = new MateriaBloc();
   final _notasBloc = new NotasBloc();
+  final _eventoBloc = new EventosBloc();
 
   Provider({Key key, Widget child})
     : super (key: key, child: child);
@@ -37,5 +45,9 @@ class Provider extends InheritedWidget{
   
   static NotasBloc notasBloc(BuildContext context){
     return context.dependOnInheritedWidgetOfExactType<Provider>()._notasBloc;
+  }
+
+  static EventosBloc eventoBloc(BuildContext context){
+    return context.dependOnInheritedWidgetOfExactType<Provider>()._eventoBloc;
   }
 }
