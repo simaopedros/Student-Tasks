@@ -9,11 +9,9 @@
          
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="Student Tasks - Development"   
-        android:icon="@mipmap/ic_launcher">      
-        <!--android:label="Student Tasks - Development" 
-            android:label="Student Tasks"
-        -->
+        android:label="Student Tasks"
+        android:icon="@mipmap/launcher_icon">
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -32,5 +30,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6361762260659022~6888838560"/>
     </application>
 </manifest>
