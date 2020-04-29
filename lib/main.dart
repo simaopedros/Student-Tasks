@@ -9,6 +9,7 @@ import 'package:appuniversitario/src/pages/provas_page.dart';
 import 'package:appuniversitario/src/pages/testes.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 import 'package:flutter/material.dart';
+import 'Pages/homePage.dart';
 
 void main()async{ 
   
