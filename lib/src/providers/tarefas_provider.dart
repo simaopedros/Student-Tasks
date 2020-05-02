@@ -1,113 +1,50 @@
-import 'dart:convert';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
-import 'package:appuniversitario/src/providers/usuario_provieder.dart';
-import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-
+import 'package:firebase_database/firebase_database.dart';
 import 'package:appuniversitario/src/models/tarefa_model.dart';
 
-class TarefasProvider{
+class TarefasProvider {
+  final db = Firestore.instance;
+  final dbRef = FirebaseDatabase.instance.reference();
+  final user = FirebaseAuth.instance.currentUser();
 
-  FirebaseUser user;
-  
-  
-  final String _url = 'https://meusapp-931b4.firebaseio.com';
   final _prefs = new PreferenciasUsuario();
-  final loginProvider = new Usuariorovider();
 
-
-  Future<bool> verificaLogado() async{
-    final url = '$_url/${ _prefs.usuario }/tarefas.json?auth=${_prefs.token}';
-    final resp = await http.get(url);
-  
-    return resp.body.contains("error");
-  }
-  
   Future<bool> criarTarefa(TarefaModel tarefa) async {
-    final url = '$_url/${ _prefs.usuario }/tarefas.json?auth=${_prefs.token}';    
-    final resp = await http.post(url, body: tarefaModelToJson(tarefa));
-    final decodeData = json.decode(resp.body);
-
-    print(decodeData);
-
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Tarefas")
+        .add(tarefa.toJson());
     return true;
   }
 
   Future<bool> atualizarTarefa(TarefaModel tarefa) async {
-    
-    final url = '$_url/${ _prefs.usuario }/tarefas/${ tarefa.id }.json?auth=${_prefs.token}';    
-    final resp = await http.put(url, body: tarefaModelToJson(tarefa));
-    final decodeData = json.decode(resp.body);
-
-    print(decodeData);
-
-    return true;
-  }
-
-
-  Future<bool> deletarTarefa(String tarefa) async {
-
-    
-    final url = '$_url/${ _prefs.usuario }/tarefas/$tarefa.json?auth=${_prefs.token}';    
-    final resp = await http.delete(url);
-    final decodeData = json.decode(resp.body);
-
-    print(decodeData);
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Tarefas")
+        .document(tarefa.id)
+        .updateData(tarefa.toJson());
 
     return true;
   }
 
-
-  Future<List<TarefaModel>> carregarTarefas() async {   
-
-    final url = '$_url/${ _prefs.usuario }/tarefas.json?auth=${_prefs.token}';
-    final resp = await http.get(url);    
-
-    
-
+  Future<List<TarefaModel>> carregarTarefas() async {
+    QuerySnapshot resultado = await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Tarefas")
+        .getDocuments();
     final List<TarefaModel> tarefas = new List();
-    final Map<String, dynamic> decodeData = json.decode(resp.body);
-    
-    if(decodeData == null) return [];
 
-    if(decodeData.containsKey('error')){
-      await loginProvider.login("${_prefs.email}", "${_prefs.senha}");
-      carregarTarefas();
-    }
-    
-
-    decodeData.forEach((id, tarefa){      
-      final tarTemp = TarefaModel.fromJson(tarefa);
-      tarTemp.id = id;
+    resultado.documents.forEach((tarefa) {
+      TarefaModel tarTemp = new TarefaModel();
+      tarTemp.id = tarefa.documentID;
+      tarTemp.tarefa = tarefa.data['tarefa'];
       tarefas.add(tarTemp);
-
     });
-
-
     return tarefas;
   }
-
-  Future<int> apagarTarefa(String id) async{
-
-    final url = '$_url/${ _prefs.usuario }/tarefas/$id.json?auth=${_prefs.token}';
-    final resp = await http.delete(url);
-
-    print(json.decode(resp.body));
-    return 1;
-  }
-
-
-  Future<TarefaModel> carregarUmaTarefa(String tarefaId) async {
-
-
-    final url = '$_url/${ _prefs.usuario }/tarefas/$tarefaId.json?auth=${_prefs.token}';
-    final resp = await http.get(url);
-    final tarefa = json.decode(resp.body);
-
-    print(tarefa);
-    return tarefa;
-  }
-
-
 }

@@ -25,6 +25,7 @@ class Provider extends InheritedWidget{
   final _notasBloc = new NotasBloc();
   final _eventoBloc = new EventosBloc();
 
+
   Provider({Key key, Widget child})
     : super (key: key, child: child);
 
@@ -50,4 +51,6 @@ class Provider extends InheritedWidget{
   static EventosBloc eventoBloc(BuildContext context){
     return context.dependOnInheritedWidgetOfExactType<Provider>()._eventoBloc;
   }
+
+
 }

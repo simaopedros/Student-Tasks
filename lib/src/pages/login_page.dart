@@ -2,6 +2,7 @@ import 'package:appuniversitario/src/bloc/provider.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 import 'package:appuniversitario/src/providers/usuario_provieder.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,6 +23,7 @@ TextEditingController senha =
     new TextEditingController(text: usuarioPrefer.senha);
 
 class _LoginPageState extends State<LoginPage> {
+
   
   String page = usuarioPrefer.ultimaPagina;
   String usuarioLOgar;
@@ -36,9 +38,13 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    
     final bloc = Provider.loginBloc(context);
-
     final _zise = MediaQuery.of(context).size;
+
+    
+
+
     return Scaffold(
         body: Stack(
       children: <Widget>[
@@ -105,22 +111,31 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   FlatButton(
                       onPressed: () async {
-                        final retorno = await loginProvider.login(
-                            email.value.text, senha.value.text);
 
-                        print(retorno.toString());
+                        FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: email.value.text, 
+                          password: senha.value.text).timeout(Duration(days: 365)).then((resp){
+                            usuarioPrefer.usuario = resp.user.uid;
+                            Toast.show("Logado como " +resp.user.email, context, duration: 5);
+                          }).catchError((err){
+                            Toast.show(err.toString(), context, duration: 10);
+                          });
+                        // final retorno = await loginProvider.login(
+                        //     email.value.text, senha.value.text);
 
-                        if (retorno["ok"] == true) {
-                          usuarioPrefer.ultimaPagina = "home";
-                          usuarioPrefer.senha = senha.value.text;
-                          usuarioPrefer.email = email.value.text;
-                          usuarioPrefer.usuario = retorno["usuario"];
-                          print(retorno.toString());
-                          Navigator.pushReplacementNamed(context, "home");
-                        } else {
-                          Toast.show(retorno["message"].toString(), context,
-                              duration: 5);
-                        }
+                        // print(retorno.toString());
+
+                        // if (retorno["ok"] == true) {
+                        //   usuarioPrefer.ultimaPagina = "home";
+                        //   usuarioPrefer.senha = senha.value.text;
+                        //   usuarioPrefer.email = email.value.text;
+                        //   usuarioPrefer.usuario = retorno["usuario"];
+                        //   print(retorno.toString());
+                        //   // Navigator.pushReplacementNamed(context, "home");
+                        // } else {
+                        //   Toast.show(retorno["message"].toString(), context,
+                        //       duration: 5);
+                        // }
                       },
                       child: Container(
                         child: Row(
@@ -145,6 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                           ],
                         ),
                       )),
+
                   FlatButton(
                       onPressed: () =>
                           Navigator.pushReplacementNamed(context, "cadastrar"),

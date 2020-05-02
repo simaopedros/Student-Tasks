@@ -2,12 +2,15 @@ import 'package:appuniversitario/src/bloc/eventos_bloc.dart';
 import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
 import 'package:appuniversitario/src/models/evento_model.dart';
 import 'package:appuniversitario/src/models/tarefa_model.dart';
+import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Tarefa extends StatefulWidget {
+  
 
   final TarefaModel tarefa;
   final String id;
@@ -29,9 +32,8 @@ class _TarefaState extends State<Tarefa> {
   Widget build(BuildContext context) {
 
     TarefasBloc tarefaBloc = new TarefasBloc();
-    EventosModel eventoModel = new EventosModel();
-
-    tarefaBloc.carregarTarefas("simaopedros");
+    EventosModel eventoModel = new EventosModel();    
+    tarefaBloc.carregarTarefas();
 
     return Hero(
       tag: widget.tarefa.id,
@@ -96,7 +98,7 @@ class _TarefaState extends State<Tarefa> {
 
           if(c == DismissDirection.endToStart){
             _abrirTarefas(widget.usuario, widget.id, widget.tarefa, eventoModel);
-            tarefaBloc.carregarTarefas(widget.usuario);
+            tarefaBloc.carregarTarefas();
           }
 
           if (c == DismissDirection.startToEnd){
@@ -122,10 +124,10 @@ class _TarefaState extends State<Tarefa> {
     bool notificaController = true;
 
 
-    final tarefa = new TarefasBloc();    
+    // final tarefa = new TarefasBloc();    
     final evento = new EventosBloc();
 
-    tarefa.carregarUmaTarefa(usuario, id);
+    // tarefa.carregarUmaTarefa(usuario, id);
   
     return showDialog(
         context: context,
@@ -292,9 +294,11 @@ class _TarefaState extends State<Tarefa> {
     }
   }
 
-  void _deletarTarefa(String tar, String usuario, TarefasBloc tarefasBloc) {
-    tarefasBloc.apagarTarefa(tar, usuario);
-    tarefasBloc.carregarTarefas(usuario);
-    //Navigator.pushReplacementNamed(context, "home");
+  void _deletarTarefa(String tar, String usuario, TarefasBloc tarefasBloc) async {
+    final _prefs = new PreferenciasUsuario();
+    final db = Firestore.instance;
+    await db.collection(_prefs.usuario).document("dados").collection("Tarefas").document("$tar").delete();
+    tarefasBloc.carregarTarefas();
+    
   }
 

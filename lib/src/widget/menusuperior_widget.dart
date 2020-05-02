@@ -64,6 +64,7 @@ class _BarraSuperiorState extends State<BarraSuperior> {
                     child: FlatButton(
                       onPressed: (){
                         setState(() {
+                          
                           _addTarefa(tarefasBloc, _controller.value.text);
                         });
                         

@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:appuniversitario/src/bloc/notas_bloc.dart';
 import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
 import 'package:appuniversitario/src/widget/appbar_widget.dart';
-import 'package:appuniversitario/src/widget/cardstory_widget.dart';
+//import 'package:appuniversitario/src/widget/cardstory_widget.dart';
 import 'package:appuniversitario/src/widget/listadetarefas_widget.dart';
 import 'package:appuniversitario/src/widget/menusuperior_widget.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
-
-// const String testDevice = '4200a35502b5c4d9';
 
 class HomePage extends StatefulWidget {
   
@@ -19,6 +17,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  
+  
 
     static final MobileAdTargetingInfo targetingInfo = new MobileAdTargetingInfo(
     testDevices: <String>["FC819F38909485567ABCC171138A71FA", "441D51944CC1BB47847FA05D37484958"],
@@ -61,6 +62,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+
      FirebaseAdMob.instance.initialize(appId: "ca-app-pub-6361762260659022/1744802029");
      _bannerAd = createBannerAd()
      ..load()
@@ -85,7 +87,7 @@ class _HomePageState extends State<HomePage> {
     notasBloc.carregarNotas(usuario);
 
     final tarefaBloc = Provider.tarefasBloc(context);
-    tarefaBloc.carregarTarefas(usuario);
+    tarefaBloc.carregarTarefas();
     
     
     usuarioPrefer.ultimaPagina = "home";
@@ -96,7 +98,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: <Widget>[
               BarraSuperior(),
-              CardStory(),
+             // CardStory(),
               _listaTarefas(tarefaBloc),
               _blocoDeNotas(notasBloc),
               SizedBox(height: 50.0,)
@@ -114,7 +116,7 @@ class _HomePageState extends State<HomePage> {
         if (!snapshot.hasData) {
           return Center(
             child: FlatButton(onPressed: (){
-              tarefaBloc.carregarTarefas(usuario);
+              tarefaBloc.carregarTarefas();
             }, 
             child: Center(child: Text("Se demorar pra recarregar, verifique se sua internet esta ativada e depois toque aqui"))),
           );
