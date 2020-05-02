@@ -1,68 +1,78 @@
-import 'dart:convert';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:appuniversitario/src/models/grade_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GradeProvider {
+  final _prefs = new PreferenciasUsuario();
+  final db = Firestore.instance;
 
-   final String _url = "https://meusapp-931b4.firebaseio.com";
-   final _prefs = new PreferenciasUsuario();
-   
-  
   Future<bool> criarGrade(GradeModel grade) async {
-    
-    final url = "$_url/${ _prefs.usuario }/grades.json?auth=${_prefs.token}";
-    await http.post(url, body: gradeModelToJson(grade));
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Grade")
+        .add(grade.toJson());
     return true;
   }
 
-  
   Future<bool> deletarGrade(String id) async {
-   
-
-    final url = "$_url/${ _prefs.usuario }/grades/$id.json?auth=${_prefs.token}";
-    await http.delete(url);
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Grade")
+        .document(id)
+        .delete();
     return true;
   }
-
 
   Future<bool> editarGrade(GradeModel grade) async {
-    
-    final url = "$_url/${ _prefs.usuario }/grades/${ grade.id }.json?auth=${_prefs.token}";
-    print(url);
-    await http.put(url, body: gradeModelToJson(grade));
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Grade")
+        .document(grade.id)
+        .updateData(grade.toJson());
     return true;
   }
 
-
-  
-  
-  Future<List<GradeModel>> carregarGrades() async {    
-    
-    final url = "$_url/${ _prefs.usuario }/grades.json?auth=${_prefs.token}";  
-    print(url);  
-    final resp = await http.get(url);    
-    print(resp);  
+  Future<List<GradeModel>> carregarGrades() async {
+    QuerySnapshot resultado = await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Grade")
+        .getDocuments();
 
     final List<GradeModel> grades = new List();
 
-    final Map<String, dynamic> decodeGrade = json.decode(resp.body);
-    print(decodeGrade); 
+    resultado.documents.forEach((grade) {
+      GradeModel gradeTemp = new GradeModel();
+      gradeTemp.id = grade.documentID;
+      gradeTemp.corB = grade.data['corB'];
+      gradeTemp.corG = grade.data['corG'];
+      gradeTemp.corR = grade.data['corR'];
+      gradeTemp.dom = grade.data['dom'];
+      gradeTemp.materia = grade.data['materia'];
+      gradeTemp.media = grade.data['media'];
+      gradeTemp.p1 = grade.data['p1'];
+      gradeTemp.p2 = grade.data['p2'];
+      gradeTemp.pesob1 = grade.data['pesob1'];
+      gradeTemp.pesob2 = grade.data['pesob2'];
+      gradeTemp.pesop1 = grade.data['pesop1'];
+      gradeTemp.pesop2 = grade.data['pesop2'];
+      gradeTemp.pesot1 = grade.data['pesot1'];
+      gradeTemp.pesot2 = grade.data['pesot2'];
+      gradeTemp.que = grade.data['que'];
+      gradeTemp.qui = grade.data['qui'];
+      gradeTemp.sab = grade.data['sab'];
+      gradeTemp.seg = grade.data['seg'];
+      gradeTemp.sex = grade.data['sex'];
+      gradeTemp.t1 = grade.data['t1'];
+      gradeTemp.t2 = grade.data['t2'];
+      gradeTemp.ter = grade.data['ter'];
 
-    if(decodeGrade == null) return [];
-    
-    decodeGrade.forEach((id, grade){
-      print(id);
-      print(grade);
-      final gradTemp = GradeModel.fromJson(grade);
-      gradTemp.id = id;
-      grades.add(gradTemp);
+      grades.add(gradeTemp);
     });
 
-    
     return grades;
   }
-
-
 }

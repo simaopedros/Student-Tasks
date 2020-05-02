@@ -1,49 +1,51 @@
-import 'dart:convert';
-
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
-import 'package:http/http.dart' as http;
-
 
 import 'package:appuniversitario/src/models/avaliacao_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-class AvaliacaoProvier{
-  final String _url ="https://meusapp-931b4.firebaseio.com";
+class AvaliacaoProvier {
   final _prefs = new PreferenciasUsuario();
+  final db = Firestore.instance;
 
   Future<bool> criarAvaliacao(AvaliacoesModel avaliacoesModel) async {
-
-        
-    final url = "$_url/${ _prefs.usuario }/avaliacoes.json?auth=${_prefs.token}";
-    await http.post(url, body: avaliacoesModelToJson(avaliacoesModel));
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Avaliacoes")
+        .add(avaliacoesModel.toJson());
     return true;
   }
 
   Future<bool> deletarAvaliacao(String avaliacao) async {
-
-   
-    final url = "$_url/${ _prefs.usuario }/avaliacoes/$avaliacao.json?auth=${_prefs.token}";
-    await http.delete(url);
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Avaliacoes")
+        .document(avaliacao)
+        .delete();
     return true;
   }
 
   Future<List<AvaliacoesModel>> carregarAvaliacao() async {
-    
-    
-    final url = "$_url/${ _prefs.usuario }/avaliacoes.json?auth=${_prefs.token}";
-    final resp = await http.get(url);
+    QuerySnapshot resultado = await db
+    .collection(_prefs.usuario)
+    .document("dados")
+    .collection("Avaliacoes")
+    .getDocuments();
+
     final List<AvaliacoesModel> avaliacoes = new List();
-
-    final Map<String, dynamic> decodeAvaliacoes = json.decode(resp.body);
-
-    if(decodeAvaliacoes == null) return [];
-
-    decodeAvaliacoes.forEach((id, avaliacao){
-      final avalTemp = AvaliacoesModel.fromJson(avaliacao);
-      avalTemp.id = id;
-      avaliacoes.add(avalTemp);
+    
+    resultado.documents.forEach((avaliacao){
+    AvaliacoesModel avaTemp = new AvaliacoesModel();
+    avaTemp.id = avaliacao.documentID;
+    avaTemp.conteudo = avaliacao.data['conteudo'];
+    avaTemp.corB = avaliacao.data['corB'];
+    avaTemp.corG = avaliacao.data['corG'];
+    avaTemp.corR = avaliacao.data['corR'];
+    avaTemp.data = avaliacao.data['data'];
+    avaTemp.materia = avaliacao.data['materia'];
+    avaliacoes.add(avaTemp);
     });
-
     return avaliacoes;
   }
 }

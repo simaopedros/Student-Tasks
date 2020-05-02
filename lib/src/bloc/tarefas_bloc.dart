@@ -35,6 +35,12 @@ class TarefasBloc {
       carregarTarefas();
     }
     
+    void deletarTarefa(TarefaModel tarefaModel) async {
+      await _tarefasProvider.deletarTarefa(tarefaModel);
+      carregarTarefas();
+    }
+
+
     dispose(){
       _tarefasControler.close();
       _carregandoControler.close();

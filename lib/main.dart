@@ -8,7 +8,6 @@ import 'package:appuniversitario/src/pages/materia_page.dart';
 import 'package:appuniversitario/src/pages/provas_page.dart';
 import 'package:appuniversitario/src/pages/testes.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -22,7 +21,6 @@ void main()async{
   
 
   runApp(MyApp());  
-  Firestore.instance.collection(prefs.usuario).document("dados").collection("Notas").add({"teste":"teste"});
 }
 class MyApp extends StatelessWidget {
 
@@ -61,7 +59,10 @@ Widget _selectDisplay(){
     stream: FirebaseAuth.instance.onAuthStateChanged ,
     builder: (BuildContext context, AsyncSnapshot snapshot){
       if(snapshot.connectionState == ConnectionState.waiting){        
-        return Center(child: Text("loadin"),);
+        return Scaffold(
+          backgroundColor: Color.fromRGBO(56, 44, 206, 1.0),
+          body: Center(child: Text("Carregando...", style: TextStyle(color: Colors.white),)),
+        );
       }else{
         if(snapshot.hasData){
           return HomePage();

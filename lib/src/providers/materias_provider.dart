@@ -1,46 +1,50 @@
-import 'dart:convert';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:appuniversitario/src/models/materia_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MateriasProvider {
-  final String _url = 'https://meusapp-931b4.firebaseio.com';
   final _prefs = new PreferenciasUsuario();
+  final db = Firestore.instance;
 
   Future<bool> criarMateria(MateriaModel materia) async {
-
-    final url = "$_url/${ _prefs.usuario }/materias.json?auth=${_prefs.token}";
-    await http.post(url, body: materiaModelToJson(materia));
-    
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Materias")
+        .add(materia.toJson());
     return true;
   }
 
   Future<bool> deletarMateria(MateriaModel materia) async {
-
-    final url = "$_url/${ _prefs.usuario }/materias/${ materia.id }.json?auth=${_prefs.token}";
-    await http.delete(url);
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Materias")
+        .document(materia.id)
+        .delete();
     return true;
   }
 
   Future<List<MateriaModel>> carregarMaterias() async {
+    QuerySnapshot resultado = await db
+        .collection(_prefs.usuario)
+        .document('dados')
+        .collection('Materias')
+        .getDocuments();
 
-
-    final url = "$_url/${ _prefs.usuario }/materias.json?auth=${_prefs.token}";
-
-    final resp = await http.get(url);
     final List<MateriaModel> materias = new List();
 
-    final Map<String, dynamic> decodeNota = json.decode(resp.body);
-
-    if(decodeNota == null) return [];
-
-
-    decodeNota.forEach((id, materia){
-      final matTemp = MateriaModel.fromJson(materia);
-      matTemp.id = id;
+    resultado.documents.forEach((materia) {
+      MateriaModel matTemp = new MateriaModel();
+      matTemp.id = materia.documentID;
+      matTemp.corb = materia.data['corb'];
+      matTemp.corg = materia.data['corg'];
+      matTemp.corr = materia.data['corr'];
+      matTemp.materia = materia.data['materia'];
       materias.add(matTemp);
     });
+
     return materias;
   }
 }

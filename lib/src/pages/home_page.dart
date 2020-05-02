@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:appuniversitario/src/bloc/notas_bloc.dart';
 import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
 import 'package:appuniversitario/src/widget/appbar_widget.dart';
-//import 'package:appuniversitario/src/widget/cardstory_widget.dart';
+import 'package:appuniversitario/src/widget/cardstory_widget.dart';
 import 'package:appuniversitario/src/widget/listadetarefas_widget.dart';
 import 'package:appuniversitario/src/widget/menusuperior_widget.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: <Widget>[
               BarraSuperior(),
-             // CardStory(),
+              CardStory(),
               _listaTarefas(tarefaBloc),
               _blocoDeNotas(notasBloc),
               SizedBox(height: 50.0,)
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
             child: FlatButton(onPressed: (){
               tarefaBloc.carregarTarefas();
             }, 
-            child: Center(child: Text("Se demorar pra recarregar, verifique se sua internet esta ativada e depois toque aqui"))),
+            child: Center(child: Text("Buscando suas tarefas..."))),
           );
         }
 

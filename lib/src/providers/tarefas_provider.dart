@@ -31,6 +31,16 @@ class TarefasProvider {
     return true;
   }
 
+  Future<bool> deletarTarefa(TarefaModel tarefaModel)async{
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Tarefas")
+        .document(tarefaModel.id)
+        .delete();
+    return true;
+  }
+
   Future<List<TarefaModel>> carregarTarefas() async {
     QuerySnapshot resultado = await db
         .collection(_prefs.usuario)

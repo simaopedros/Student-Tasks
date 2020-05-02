@@ -2,9 +2,7 @@ import 'package:appuniversitario/src/bloc/eventos_bloc.dart';
 import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
 import 'package:appuniversitario/src/models/evento_model.dart';
 import 'package:appuniversitario/src/models/tarefa_model.dart';
-import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -102,7 +100,7 @@ class _TarefaState extends State<Tarefa> {
           }
 
           if (c == DismissDirection.startToEnd){
-            _deletarTarefa(widget.tarefa.id, "simaopedros", tarefaBloc);
+            _deletarTarefa(widget.tarefa, tarefaBloc);
           }
 
           
@@ -294,11 +292,7 @@ class _TarefaState extends State<Tarefa> {
     }
   }
 
-  void _deletarTarefa(String tar, String usuario, TarefasBloc tarefasBloc) async {
-    final _prefs = new PreferenciasUsuario();
-    final db = Firestore.instance;
-    await db.collection(_prefs.usuario).document("dados").collection("Tarefas").document("$tar").delete();
-    tarefasBloc.carregarTarefas();
-    
+  void _deletarTarefa(TarefaModel tarefaModel, TarefasBloc tarefasBloc) async {
+    tarefasBloc.deletarTarefa(tarefaModel); 
   }
 

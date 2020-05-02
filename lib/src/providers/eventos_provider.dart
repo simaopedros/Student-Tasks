@@ -1,72 +1,67 @@
-
-import 'dart:convert';
 import 'package:appuniversitario/src/models/evento_model.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
-import 'package:http/http.dart' as http;
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventosProvider {
-  final String _url = 'https://meusapp-931b4.firebaseio.com';
-   final _prefs = new PreferenciasUsuario();
+  final _prefs = new PreferenciasUsuario();
+  final db = Firestore.instance;
 
   Future<bool> criarEvento(EventosModel evento) async {
-
-   
-
-    final url = '$_url/${ _prefs.usuario }/eventos.json?auth=${ _prefs.token }';
-    final resp = await http.post(url, body: eventosModelToJson(evento));
-    final decodeData = json.decode(resp.body);
-    print(decodeData);
-
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Eventos")
+        .add(evento.toJson());
     return true;
   }
 
   Future<bool> atualizarEvento(EventosModel evento) async {
-
-    
-    final url =  '$_url/${ _prefs.usuario }/eventos/${ evento.id }.json?auth=${ _prefs.token }'; 
-    final resp = await http.put(url, body:  eventosModelToJson(evento));
-    final decodeData = json.decode(resp.body);
-
-    print(decodeData);
-
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Eventos")
+        .document(evento.id)
+        .updateData(evento.toJson());
     return true;
   }
 
   Future<bool> deletarEvento(String evento) async {
-
-    
-    final url =  '$_url/${ _prefs.usuario }/eventos/$evento.json?auth=${ _prefs.token }'; 
-    final resp = await http.delete(url);
-    final decodeData = json.decode(resp.body);
-
-    print(decodeData);
+    await db
+        .collection(_prefs.usuario)
+        .document("dados")
+        .collection("Eventos")
+        .document(evento)
+        .delete();
 
     return true;
   }
 
   Future<List<EventosModel>> carregarEventos() async {
+    QuerySnapshot resultado = await db
+    .collection(_prefs.usuario)
+    .document("dados")
+    .collection("Eventos")
+    .getDocuments();
 
-    
-    final url = '$_url/${ _prefs.usuario }/eventos.json?auth=${ _prefs.token }';
-
-    final resp = await http.get(url);
     final List<EventosModel> eventos = new List();
 
-    final Map<String, dynamic> decodeData = json.decode(resp.body);
-
-    if(decodeData == null) return [];
-
-    decodeData.forEach((id, evento){
-      final eventTemp = EventosModel.fromJson(evento);
-      eventTemp.id = id;
+    resultado.documents.forEach((evento){
+      EventosModel eventTemp = new EventosModel();
+      eventTemp.id = evento.documentID;
+      eventTemp.descricao = evento.data['descricao'];
+      eventTemp.hora = evento.data['hora'];
+      eventTemp.local = evento.data['local'];
+      eventTemp.materia = evento.data['materia'];
+      eventTemp.notifica = evento.data['notifica'];
+      eventTemp.prazo = evento.data['prazo'];
+      eventTemp.tarefa = evento.data['tarefa'];
+      eventTemp.tipoevento = evento.data['tipoevento'];
+      
       eventos.add(eventTemp);
+
     });
 
-    return eventos;
+    return eventos
+    ;
   }
-
-
-
 }
