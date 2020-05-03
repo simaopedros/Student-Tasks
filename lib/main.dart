@@ -13,7 +13,6 @@ import 'package:appuniversitario/src/providers/push_notificao_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 void main()async{ 
   
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,6 +72,7 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+
 }
 
 Widget _selectDisplay(){
