@@ -5,9 +5,11 @@ import 'package:appuniversitario/src/pages/grade_page.dart';
 import 'package:appuniversitario/src/pages/home_page.dart';
 import 'package:appuniversitario/src/pages/login_page.dart';
 import 'package:appuniversitario/src/pages/materia_page.dart';
+import 'package:appuniversitario/src/pages/mensagens_noti.dart';
 import 'package:appuniversitario/src/pages/provas_page.dart';
 import 'package:appuniversitario/src/pages/testes.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
+import 'package:appuniversitario/src/providers/push_notificao_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -22,18 +24,38 @@ void main()async{
 
   runApp(MyApp());  
 }
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
 
   
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  final GlobalKey<NavigatorState> navigatoKey = new GlobalKey<NavigatorState>();
   final inicialPage = PreferenciasUsuario();
+
   final tarefasBloc = TarefasBloc();
-  
+
+  @override
+  void initState() {
+    
+    super.initState();
+    final push =new PushNotificacaoProvider();
+    push.initNotificacoes();
+    push.menssagens.listen((data){      
+      navigatoKey.currentState.pushNamed("notif", arguments: data);
+      // Navigator.pushNamed(context, "notif");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Provider(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        navigatorKey: navigatoKey,
         title: 'StudentsTasks',
         initialRoute: 'selectDisplay',        
         routes: {
@@ -45,8 +67,8 @@ class MyApp extends StatelessWidget {
           'materia': (BuildContext context) => MateriaPage(),
           'estudo': (BuildContext context) => EstudoPage(),
           'teste' : (BuildContext context) => TesteApp(),
-          'selectDisplay' : (BuildContext contex) => _selectDisplay()
-          
+          'selectDisplay' : (BuildContext contex) => _selectDisplay(),
+          'notif' : (BuildContext context) => MenssagemNotif(),
         },
       ),
     );

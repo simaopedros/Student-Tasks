@@ -111,7 +111,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   FlatButton(
                       onPressed: () async {
-
                         FirebaseAuth.instance.signInWithEmailAndPassword(
                           email: email.value.text, 
                           password: senha.value.text).timeout(Duration(days: 365)).then((resp){
@@ -120,22 +119,6 @@ class _LoginPageState extends State<LoginPage> {
                           }).catchError((err){
                             Toast.show(err.toString(), context, duration: 10);
                           });
-                        // final retorno = await loginProvider.login(
-                        //     email.value.text, senha.value.text);
-
-                        // print(retorno.toString());
-
-                        // if (retorno["ok"] == true) {
-                        //   usuarioPrefer.ultimaPagina = "home";
-                        //   usuarioPrefer.senha = senha.value.text;
-                        //   usuarioPrefer.email = email.value.text;
-                        //   usuarioPrefer.usuario = retorno["usuario"];
-                        //   print(retorno.toString());
-                        //   // Navigator.pushReplacementNamed(context, "home");
-                        // } else {
-                        //   Toast.show(retorno["message"].toString(), context,
-                        //       duration: 5);
-                        // }
                       },
                       child: Container(
                         child: Row(

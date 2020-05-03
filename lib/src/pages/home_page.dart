@@ -10,6 +10,7 @@ import 'package:appuniversitario/src/widget/listadetarefas_widget.dart';
 import 'package:appuniversitario/src/widget/menusuperior_widget.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
 
+
 class HomePage extends StatefulWidget {
   
   @override
@@ -69,6 +70,7 @@ class _HomePageState extends State<HomePage> {
      ..show();
     tempo = DateTime.now();
     super.initState();
+    
   }
 
   @override

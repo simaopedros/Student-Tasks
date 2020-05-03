@@ -7,6 +7,7 @@ class EventosProvider {
   final db = Firestore.instance;
 
   Future<bool> criarEvento(EventosModel evento) async {
+    db.settings(persistenceEnabled: true);
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -16,6 +17,7 @@ class EventosProvider {
   }
 
   Future<bool> atualizarEvento(EventosModel evento) async {
+    db.settings(persistenceEnabled: true);
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -26,6 +28,7 @@ class EventosProvider {
   }
 
   Future<bool> deletarEvento(String evento) async {
+    db.settings(persistenceEnabled: true);
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -37,6 +40,7 @@ class EventosProvider {
   }
 
   Future<List<EventosModel>> carregarEventos() async {
+    db.settings(persistenceEnabled: true);
     QuerySnapshot resultado = await db
     .collection(_prefs.usuario)
     .document("dados")

@@ -9,6 +9,7 @@ class BlocoDeNotasProvider {
     final db = Firestore.instance;
 
     Future<bool> criarNota(BlocoDeNotasModel nota) async {
+      db.settings(persistenceEnabled: true);
       await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -19,6 +20,7 @@ class BlocoDeNotasProvider {
 
 
   Future<bool> deletarNota(BlocoDeNotasModel nota) async {
+    db.settings(persistenceEnabled: true);
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -31,6 +33,7 @@ class BlocoDeNotasProvider {
 
 
   Future<List<BlocoDeNotasModel>> carregarNotas() async {
+    db.settings(persistenceEnabled: true);
     QuerySnapshot resultado = await db
     .collection(_prefs.usuario)
     .document("dados")

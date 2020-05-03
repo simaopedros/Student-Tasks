@@ -7,6 +7,7 @@ class GradeProvider {
   final db = Firestore.instance;
 
   Future<bool> criarGrade(GradeModel grade) async {
+    db.settings(persistenceEnabled: true);
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -16,6 +17,7 @@ class GradeProvider {
   }
 
   Future<bool> deletarGrade(String id) async {
+    db.settings(persistenceEnabled: true);
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -26,6 +28,7 @@ class GradeProvider {
   }
 
   Future<bool> editarGrade(GradeModel grade) async {
+    db.settings(persistenceEnabled: true);
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -36,6 +39,7 @@ class GradeProvider {
   }
 
   Future<List<GradeModel>> carregarGrades() async {
+    db.settings(persistenceEnabled: true);
     QuerySnapshot resultado = await db
         .collection(_prefs.usuario)
         .document("dados")

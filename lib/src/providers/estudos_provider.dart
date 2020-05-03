@@ -7,6 +7,7 @@ class EstudosProvier {
   final db = Firestore.instance;
 
   Future<bool> criarEstudo(EstudosModel estudo, String diaSemana) async {
+    db.settings(persistenceEnabled: true);
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -18,6 +19,7 @@ class EstudosProvier {
   }
 
   Future<bool> deletarEstudo(String diaSemana, String estudoId) async {
+    db.settings(persistenceEnabled: true);
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -30,6 +32,7 @@ class EstudosProvier {
   }
 
   Future<List<EstudosModel>> carregarEstudosSemana(String diaDaSemana) async {
+    db.settings(persistenceEnabled: true);
     QuerySnapshot resultado = await db
         .collection(_prefs.usuario)
         .document("dados")

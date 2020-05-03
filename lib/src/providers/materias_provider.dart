@@ -8,6 +8,7 @@ class MateriasProvider {
   final db = Firestore.instance;
 
   Future<bool> criarMateria(MateriaModel materia) async {
+    db.settings(persistenceEnabled: true);
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -17,6 +18,7 @@ class MateriasProvider {
   }
 
   Future<bool> deletarMateria(MateriaModel materia) async {
+    db.settings(persistenceEnabled: true);
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -27,6 +29,7 @@ class MateriasProvider {
   }
 
   Future<List<MateriaModel>> carregarMaterias() async {
+    db.settings(persistenceEnabled: true);
     QuerySnapshot resultado = await db
         .collection(_prefs.usuario)
         .document('dados')

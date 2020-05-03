@@ -6,8 +6,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AvaliacaoProvier {
   final _prefs = new PreferenciasUsuario();
   final db = Firestore.instance;
-
+  
+  
   Future<bool> criarAvaliacao(AvaliacoesModel avaliacoesModel) async {
+
+    db.settings(persistenceEnabled: true);
+    
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -17,6 +21,9 @@ class AvaliacaoProvier {
   }
 
   Future<bool> deletarAvaliacao(String avaliacao) async {
+
+    db.settings(persistenceEnabled: true);
+
     await db
         .collection(_prefs.usuario)
         .document("dados")
@@ -27,6 +34,9 @@ class AvaliacaoProvier {
   }
 
   Future<List<AvaliacoesModel>> carregarAvaliacao() async {
+
+    db.settings(persistenceEnabled: true);
+
     QuerySnapshot resultado = await db
     .collection(_prefs.usuario)
     .document("dados")
