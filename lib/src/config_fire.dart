@@ -13,13 +13,13 @@ class ConfigFire {
 
 
   
-  Future<void> configure() async {
+  Future<FirebaseApp> configure() async {
     final FirebaseApp app = await FirebaseApp.configure(
       name: name,
       options: options,
     );
-    assert(app != null);
-    print('Configured $app');
+    
+    return app;
   }
 
   Future<void> allApps() async {

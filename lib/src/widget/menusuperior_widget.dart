@@ -1,8 +1,8 @@
 import 'package:appuniversitario/src/bloc/provider.dart';
+import 'package:appuniversitario/src/pages/home/features/tarefas/tarefa_model.dart';
+import 'package:appuniversitario/src/pages/home/features/tarefas/tarefas_bloc.dart';
 import 'package:flutter/material.dart';
 
-import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
-import 'package:appuniversitario/src/models/tarefa_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
@@ -64,6 +64,7 @@ class _BarraSuperiorState extends State<BarraSuperior> {
                     child: FlatButton(
                       onPressed: (){
                         setState(() {
+                          
                           _addTarefa(tarefasBloc, _controller.value.text);
                         });
                         

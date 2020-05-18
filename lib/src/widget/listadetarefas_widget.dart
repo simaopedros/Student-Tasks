@@ -1,13 +1,13 @@
-import 'package:appuniversitario/src/bloc/eventos_bloc.dart';
-import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
-import 'package:appuniversitario/src/models/evento_model.dart';
-import 'package:appuniversitario/src/models/tarefa_model.dart';
+import 'package:appuniversitario/src/pages/home/features/eventos/eventos_bloc.dart';
+import 'package:appuniversitario/src/pages/home/features/tarefas/tarefa_model.dart';
+import 'package:appuniversitario/src/pages/home/features/tarefas/tarefas_bloc.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Tarefa extends StatefulWidget {
+  
 
   final TarefaModel tarefa;
   final String id;
@@ -29,9 +29,8 @@ class _TarefaState extends State<Tarefa> {
   Widget build(BuildContext context) {
 
     TarefasBloc tarefaBloc = new TarefasBloc();
-    EventosModel eventoModel = new EventosModel();
-
-    tarefaBloc.carregarTarefas("simaopedros");
+    EventosModel eventoModel = new EventosModel();    
+    tarefaBloc.carregarTarefas();
 
     return Hero(
       tag: widget.tarefa.id,
@@ -96,11 +95,11 @@ class _TarefaState extends State<Tarefa> {
 
           if(c == DismissDirection.endToStart){
             _abrirTarefas(widget.usuario, widget.id, widget.tarefa, eventoModel);
-            tarefaBloc.carregarTarefas(widget.usuario);
+            tarefaBloc.carregarTarefas();
           }
 
           if (c == DismissDirection.startToEnd){
-            _deletarTarefa(widget.tarefa.id, "simaopedros", tarefaBloc);
+            _deletarTarefa(widget.tarefa, tarefaBloc);
           }
 
           
@@ -122,10 +121,10 @@ class _TarefaState extends State<Tarefa> {
     bool notificaController = true;
 
 
-    final tarefa = new TarefasBloc();    
+    // final tarefa = new TarefasBloc();    
     final evento = new EventosBloc();
 
-    tarefa.carregarUmaTarefa(usuario, id);
+    // tarefa.carregarUmaTarefa(usuario, id);
   
     return showDialog(
         context: context,
@@ -292,9 +291,7 @@ class _TarefaState extends State<Tarefa> {
     }
   }
 
-  void _deletarTarefa(String tar, String usuario, TarefasBloc tarefasBloc) {
-    tarefasBloc.apagarTarefa(tar, usuario);
-    tarefasBloc.carregarTarefas(usuario);
-    //Navigator.pushReplacementNamed(context, "home");
+  void _deletarTarefa(TarefaModel tarefaModel, TarefasBloc tarefasBloc) async {
+    tarefasBloc.deletarTarefa(tarefaModel); 
   }
 

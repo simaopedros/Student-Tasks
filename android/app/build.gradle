@@ -45,11 +45,10 @@ android {
 
     defaultConfig {
         applicationId "br.com.sps.student"
-        //!applicationId "br.com.sps.studentdev"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 28
-        versionCode 10
-        versionName "2.0.4"
+        versionCode 12
+        versionName "2.0.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
