@@ -1,4 +1,5 @@
-import 'package:appuniversitario/src/models/estudo_model.dart';
+
+import 'package:appuniversitario/src/pages/estudos/estudo_model.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

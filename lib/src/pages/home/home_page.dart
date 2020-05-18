@@ -1,9 +1,10 @@
 import 'package:appuniversitario/src/bloc/provider.dart';
+import 'package:appuniversitario/src/pages/home/features/notas/blocodenotas_bloc.dart';
+import 'package:appuniversitario/src/pages/home/features/tarefas/tarefa_model.dart';
+import 'package:appuniversitario/src/pages/home/features/tarefas/tarefas_bloc.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
-import 'package:appuniversitario/src/bloc/notas_bloc.dart';
-import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
 import 'package:appuniversitario/src/widget/appbar_widget.dart';
 import 'package:appuniversitario/src/widget/cardstory_widget.dart';
 import 'package:appuniversitario/src/widget/listadetarefas_widget.dart';

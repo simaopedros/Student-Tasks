@@ -1,8 +1,8 @@
-import 'package:appuniversitario/src/models/bocodenotas_model.dart';
-export 'package:appuniversitario/src/models/bocodenotas_model.dart';
+import 'package:appuniversitario/src/pages/home/features/notas/blocodenotas_provider.dart';
+export 'package:appuniversitario/src/pages/home/features/notas/blocodenotas_provider.dart';
 
-import 'package:appuniversitario/src/providers/blocodenotas_provider.dart';
-export 'package:appuniversitario/src/providers/blocodenotas_provider.dart';
+import 'package:appuniversitario/src/pages/home/features/notas/bocodenotas_model.dart';
+export 'package:appuniversitario/src/pages/home/features/notas/bocodenotas_model.dart';
 
 import 'package:rxdart/rxdart.dart';
 

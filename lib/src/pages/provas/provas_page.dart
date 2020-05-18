@@ -1,7 +1,8 @@
-import 'package:appuniversitario/src/bloc/avaliacoes_bloc.dart';
-import 'package:appuniversitario/src/bloc/eventos_bloc.dart';
-import 'package:appuniversitario/src/bloc/materias_bloc.dart';
-// import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
+
+import 'package:appuniversitario/src/pages/home/features/eventos/eventos_bloc.dart';
+import 'package:appuniversitario/src/pages/materias/materias_bloc.dart';
+
+import 'package:appuniversitario/src/pages/provas/provas_bloc.dart';
 import 'package:appuniversitario/src/widget/appbar_widget.dart';
 import 'package:appuniversitario/src/widget/cardstory_widget.dart';
 import 'package:appuniversitario/src/widget/etiquetamateria_widget.dart';

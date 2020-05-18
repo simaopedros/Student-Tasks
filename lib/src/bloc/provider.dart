@@ -1,20 +1,10 @@
+import 'package:appuniversitario/src/pages/home/features/eventos/eventos_bloc.dart';
+import 'package:appuniversitario/src/pages/home/features/notas/blocodenotas_bloc.dart';
+import 'package:appuniversitario/src/pages/home/features/tarefas/tarefas_bloc.dart';
+import 'package:appuniversitario/src/pages/materias/materias_bloc.dart';
+import 'package:appuniversitario/src/pages/usuario/login_bloc.dart';
 import 'package:flutter/material.dart';
 
-import 'package:appuniversitario/src/bloc/eventos_bloc.dart';
-export 'package:appuniversitario/src/bloc/eventos_bloc.dart';
-
-import 'package:appuniversitario/src/bloc/login_bloc.dart';
-export 'package:appuniversitario/src/bloc/login_bloc.dart';
-
-import 'package:appuniversitario/src/bloc/materias_bloc.dart';
-export 'package:appuniversitario/src/bloc/materias_bloc.dart';
-
-import 'package:appuniversitario/src/bloc/notas_bloc.dart';
-export 'package:appuniversitario/src/bloc/notas_bloc.dart';
-
-
-import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
-export 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
 
 
 class Provider extends InheritedWidget{

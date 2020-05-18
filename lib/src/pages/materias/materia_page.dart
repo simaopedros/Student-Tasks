@@ -1,5 +1,6 @@
-import 'package:appuniversitario/src/bloc/materias_bloc.dart';
+
 import 'package:appuniversitario/src/bloc/provider.dart';
+import 'package:appuniversitario/src/pages/materias/materias_bloc.dart';
 import 'package:appuniversitario/src/widget/appbar_widget.dart';
 import 'package:appuniversitario/src/widget/cardstory_widget.dart';
 import 'package:appuniversitario/src/widget/itemmateria_widget.dart';

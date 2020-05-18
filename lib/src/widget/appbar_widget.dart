@@ -1,5 +1,5 @@
-import 'package:appuniversitario/src/bloc/notas_bloc.dart';
 import 'package:appuniversitario/src/bloc/provider.dart';
+import 'package:appuniversitario/src/pages/home/features/notas/blocodenotas_bloc.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,28 +26,10 @@ Widget appBarPadrao(context) {
             Icons.note_add,
             color: Colors.white,
           )),
-      // IconButton(
-      //     onPressed: () {
-      //       // _importarDados(context);
-      //     },
-      //     icon: Icon(
-      //       FontAwesomeIcons.ad,
-      //       color: Colors.white,
-      //     ))
+     
     ],
   );
 }
-
-// _importarDados(context){
-//   return showDialog(    
-//     context: context,
-//     child: Scaffold(
-//       backgroundColor: Colors.transparent,
-//       body: Center(child: ImportarSql())
-//   )
-//   );
-// }
-
 Future _adicionrTarefa(context) {
   
   final _notaController = new TextEditingController();

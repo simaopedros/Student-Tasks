@@ -1,8 +1,12 @@
-import 'package:appuniversitario/src/models/evento_model.dart';
-export 'package:appuniversitario/src/models/evento_model.dart';
+import 'package:appuniversitario/src/pages/home/features/eventos/evento_model.dart';
 
-import 'package:appuniversitario/src/providers/eventos_provider.dart';
-export 'package:appuniversitario/src/providers/eventos_provider.dart';
+import 'package:appuniversitario/src/pages/home/features/eventos/eventos_provider.dart';
+export 'package:appuniversitario/src/pages/home/features/eventos/eventos_provider.dart';
+
+export 'package:appuniversitario/src/pages/home/features/eventos/evento_model.dart';
+
+
+
 
 import 'package:rxdart/rxdart.dart';
 

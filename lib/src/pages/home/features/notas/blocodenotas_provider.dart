@@ -1,6 +1,7 @@
+import 'package:appuniversitario/src/pages/home/features/notas/bocodenotas_model.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 
-import 'package:appuniversitario/src/models/bocodenotas_model.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BlocoDeNotasProvider {

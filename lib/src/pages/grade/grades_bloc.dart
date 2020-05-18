@@ -1,8 +1,9 @@
-import 'package:appuniversitario/src/models/grade_model.dart';
-export 'package:appuniversitario/src/models/grade_model.dart';
+import 'package:appuniversitario/src/pages/grade/grade_model.dart';
+export 'package:appuniversitario/src/pages/grade/grade_model.dart';
 
-import 'package:appuniversitario/src/providers/grade_provider.dart';
-export 'package:appuniversitario/src/providers/grade_provider.dart';
+import 'package:appuniversitario/src/pages/grade/grade_provider.dart';
+export 'package:appuniversitario/src/pages/grade/grade_provider.dart';
+
 
 import 'package:rxdart/rxdart.dart';
 

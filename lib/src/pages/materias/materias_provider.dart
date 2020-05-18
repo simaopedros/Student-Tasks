@@ -1,6 +1,6 @@
+import 'package:appuniversitario/src/pages/materias/materia_model.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 
-import 'package:appuniversitario/src/models/materia_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MateriasProvider {

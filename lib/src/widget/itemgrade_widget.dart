@@ -1,4 +1,5 @@
-import 'package:appuniversitario/src/bloc/grades_bloc.dart';
+
+import 'package:appuniversitario/src/pages/grade/grades_bloc.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

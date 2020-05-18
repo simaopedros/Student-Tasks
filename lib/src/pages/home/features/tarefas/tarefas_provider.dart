@@ -1,7 +1,7 @@
+import 'package:appuniversitario/src/pages/home/features/tarefas/tarefa_model.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:appuniversitario/src/models/tarefa_model.dart';
 
 class TarefasProvider {
   final db = Firestore.instance; 

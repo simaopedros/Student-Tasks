@@ -1,5 +1,5 @@
-import 'package:appuniversitario/src/bloc/grades_bloc.dart';
-import 'package:appuniversitario/src/bloc/materias_bloc.dart';
+import 'package:appuniversitario/src/pages/grade/grades_bloc.dart';
+import 'package:appuniversitario/src/pages/materias/materias_bloc.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 import 'package:appuniversitario/src/widget/appbar_widget.dart';
 import 'package:appuniversitario/src/widget/cardstory_widget.dart';

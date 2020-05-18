@@ -1,8 +1,10 @@
-import 'package:appuniversitario/src/models/materia_model.dart';
-export 'package:appuniversitario/src/models/materia_model.dart';
+import 'package:appuniversitario/src/pages/materias/materia_model.dart';
+export 'package:appuniversitario/src/pages/materias/materia_model.dart';
 
-import 'package:appuniversitario/src/providers/materias_provider.dart';
-export 'package:appuniversitario/src/providers/materias_provider.dart';
+import 'package:appuniversitario/src/pages/materias/materias_provider.dart';
+export 'package:appuniversitario/src/pages/materias/materias_provider.dart';
+
+
 
 import 'package:rxdart/rxdart.dart';
 

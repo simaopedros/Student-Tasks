@@ -1,4 +1,5 @@
 import 'package:appuniversitario/src/bloc/provider.dart';
+import 'package:appuniversitario/src/pages/home/features/eventos/eventos_bloc.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

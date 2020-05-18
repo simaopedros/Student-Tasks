@@ -1,5 +1,6 @@
-import 'package:appuniversitario/src/bloc/avaliacoes_bloc.dart';
-import 'package:appuniversitario/src/bloc/eventos_bloc.dart';
+
+import 'package:appuniversitario/src/pages/home/features/eventos/eventos_bloc.dart';
+import 'package:appuniversitario/src/pages/provas/provas_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';

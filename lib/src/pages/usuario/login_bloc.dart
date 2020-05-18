@@ -1,5 +1,5 @@
 import 'package:appuniversitario/src/bloc/validator.dart';
-import 'package:appuniversitario/src/providers/usuario_provieder.dart';
+import 'package:appuniversitario/src/pages/usuario/usuario_provieder.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginBloc with Validator {

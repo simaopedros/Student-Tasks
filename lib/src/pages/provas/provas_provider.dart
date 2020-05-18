@@ -1,6 +1,6 @@
+import 'package:appuniversitario/src/pages/provas/provas_model.dart';
 import 'package:appuniversitario/src/preferencias_usuarios/preferencias_usuarios.dart';
 
-import 'package:appuniversitario/src/models/avaliacao_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AvaliacaoProvier {

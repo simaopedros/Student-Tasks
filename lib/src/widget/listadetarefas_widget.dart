@@ -1,7 +1,6 @@
-import 'package:appuniversitario/src/bloc/eventos_bloc.dart';
-import 'package:appuniversitario/src/bloc/tarefas_bloc.dart';
-import 'package:appuniversitario/src/models/evento_model.dart';
-import 'package:appuniversitario/src/models/tarefa_model.dart';
+import 'package:appuniversitario/src/pages/home/features/eventos/eventos_bloc.dart';
+import 'package:appuniversitario/src/pages/home/features/tarefas/tarefa_model.dart';
+import 'package:appuniversitario/src/pages/home/features/tarefas/tarefas_bloc.dart';
 import 'package:appuniversitario/src/widget/titulo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

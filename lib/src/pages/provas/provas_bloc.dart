@@ -1,8 +1,8 @@
-import 'package:appuniversitario/src/models/avaliacao_model.dart';
-export 'package:appuniversitario/src/models/avaliacao_model.dart';
+import 'package:appuniversitario/src/pages/provas/provas_model.dart';
+import 'package:appuniversitario/src/pages/provas/provas_provider.dart';
+export 'package:appuniversitario/src/pages/provas/provas_provider.dart';
+export 'package:appuniversitario/src/pages/provas/provas_model.dart';
 
-import 'package:appuniversitario/src/providers/avaliacao_provider.dart';
-export 'package:appuniversitario/src/providers/avaliacao_provider.dart';
 
 import 'package:rxdart/rxdart.dart';
 

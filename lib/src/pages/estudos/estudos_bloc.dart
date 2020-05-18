@@ -1,11 +1,13 @@
+
 import 'package:rxdart/rxdart.dart';
 
+import 'package:appuniversitario/src/pages/estudos/estudo_model.dart';
+export 'package:appuniversitario/src/pages/estudos/estudo_model.dart';
 
-import 'package:appuniversitario/src/models/estudo_model.dart';
-export 'package:appuniversitario/src/models/estudo_model.dart';
+import 'package:appuniversitario/src/pages/estudos/estudos_provider.dart';
+export 'package:appuniversitario/src/pages/estudos/estudos_provider.dart';
 
-import 'package:appuniversitario/src/providers/estudos_provider.dart';
-export 'package:appuniversitario/src/providers/estudos_provider.dart';
+
 
 class EstudosBloc {
   final _estudosController = new BehaviorSubject<List<EstudosModel>>();

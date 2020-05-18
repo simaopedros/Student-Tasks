@@ -1,8 +1,8 @@
-import 'package:appuniversitario/src/models/tarefa_model.dart';
-export 'package:appuniversitario/src/models/tarefa_model.dart';
+import 'package:appuniversitario/src/pages/home/features/tarefas/tarefa_model.dart';
 
-import 'package:appuniversitario/src/providers/tarefas_provider.dart';
-export 'package:appuniversitario/src/providers/tarefas_provider.dart';
+import 'package:appuniversitario/src/pages/home/features/tarefas/tarefas_provider.dart';
+export 'package:appuniversitario/src/pages/home/features/tarefas/tarefas_provider.dart';
+
 
 import 'package:rxdart/rxdart.dart';
 
